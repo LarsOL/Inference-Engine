@@ -7,7 +7,7 @@
     <ProjectGuid>{4E939813-D19E-448A-B172-6C4A961C6F6B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication3</RootNamespace>
+    <RootNamespace>InferenceEngine</RootNamespace>
     <AssemblyName>ConsoleApplication3</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -55,12 +55,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="ClassDiagram1.cd" />
-    <None Include="SequenceDiagram1.sequencediagram" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SequenceDiagram1.sequencediagram.layout">
-      <DependentUpon>SequenceDiagram1.sequencediagram</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
