@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ConsoleApplication3
+namespace InferenceEngine
 {
     public class KnowledgeBase
     {
         private Proposition[] _Propostions;
 
-        public KnowledgeBase(ConsoleApplication3.Proposition[] Porpositions)
+        public KnowledgeBase(InferenceEngine.Proposition[] Porpositions)
         {
             throw new System.NotImplementedException();
         }
