@@ -13,7 +13,7 @@ namespace InferenceEngine
             _FilePath = FilePath;
         }
 
-        /// <remarks>Last one is the goal,  No White Space</remarks>
+        /// <remarks>Last one is the goal,  No White Space, we made a change, is this in master?</remarks>
         /// <returns></returns>
         public string[] ReadFromFile()
         {
