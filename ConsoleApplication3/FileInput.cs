@@ -7,9 +7,10 @@ namespace InferenceEngine
 {
     public class FileInput
     {
+        string _FilePath;
         public FileInput(string FilePath)
         {
-            throw new System.NotImplementedException();
+            _FilePath = FilePath;
         }
 
         /// <remarks>Last one is the goal, No White Space</remarks>
