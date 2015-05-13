@@ -81,28 +81,24 @@ namespace InferenceEngine
 
            Proposition CurrentProp = new Proposition();
            
-                
-
-            if(PropositionString.Length == 3){ // base case
+           if(PropositionString.Length == 3){ // base case
                 CurrentProp._A = String2Symbol(PropositionString[0]);
                 CurrentProp._Operation = String2Operation(PropositionString[1]);
                 CurrentProp._B = String2Symbol(PropositionString[2]);
                 return CurrentProp;
             }
+
             if (PropositionString.Length <= 3)
             {
                 throw new System.ArgumentException("Less than 3 agruements in base case");
             }
 
             int ParenthesisCount = 0;
-            int deepest_Parenthesis = 0;
-            bool containsParenthesis = false;
-            int SetShift = 0;
-            List<Operations> possible_linkers = new List<Operations>(); // before & after the first ( and before and after the last )
-            List<int> Parenthesist_pos = new List<int>();
+            Operations[] possible_linkers = new Operations[2]; // before & after the first ( and before and after the last )
+            int[] Parenthesist_pos = new int[2];
 
 
-            for(int i = 0 ; i < PropositionString.Length ; i++)
+            for(int i = 0 ; i < PropositionString.Length ; i++) //find high level brakets, srtring together prop left to right
             {
                 
                 if(PropositionString[i].Contains("("))
@@ -110,14 +106,15 @@ namespace InferenceEngine
                     
                     if(ParenthesisCount == 0) // found the start of a top level braket
                     {
+                        Parenthesist_pos[0] = i;
                         if(i > 0) // Dont go out of array bounds
                         {
                             try{ // see if there is a valid operation linker
-                            possible_linkers.Add(String2Operation(PropositionString[i-1])); 
+                            possible_linkers[0] = String2Operation(PropositionString[i-1]); 
                             }
                             catch (System.ArgumentException e)
                             {
-                                // not vaild skip
+                                possible_linkers[0] = Operations.NotSet; // not vaild skip
                             }
                         }                        
                     }
@@ -134,16 +131,60 @@ namespace InferenceEngine
 
                     if(ParenthesisCount == 0) // found the end of a top level braket
                     {
+                        Parenthesist_pos[1] = i;
                         if(i < PropositionString.Length - 1) // Dont go out of array bounds
                             {
                                 try{ // see if there is a valid operation linker
-                                possible_linkers.Add(String2Operation(PropositionString[i+1])); 
+                                possible_linkers[1] = String2Operation(PropositionString[i+1]); 
                                 }
                                 catch (System.ArgumentException e)
                                 {
-                                    // not vaild skip
+                                    possible_linkers[0] = Operations.NotSet; // not vaild skip
                                 }
                             }
+                        if (possible_linkers[0] == Operations.NotSet && possible_linkers[1] == Operations.NotSet)
+                        {
+                             throw new System.ArgumentException("Parenthesis Or code error, no prop detected before or after highest lvl brakets");
+                        }
+                        // recurse - take  high level brackets put it on one side of prop, put whats left on other side
+                        if(possible_linkers[0] == Operations.NotSet) // if brakets are on left side
+                        {
+                            string[] left = new string[Parenthesist_pos[1]- Parenthesist_pos[0] - 2]; //room what is in brakets
+                            string[] right = new string[PropositionString.Length - left.Length - 2]; // room for what is left (- 2 for prop symbol & 0 indexed array)
+                            Array.Copy(PropositionString, Parenthesist_pos[0] + 1, left, 0, left.Length); // put what is in brakets in left
+                            Array.Copy(PropositionString, Parenthesist_pos[1] + 2, right, 0, right.Length); // put what is left in right
+                            CurrentProp._ARef = generateProp(left);
+                            CurrentProp._Operation = possible_linkers[1];
+                            if(right.Length == 1) // if it is next to a symbol not prop
+                            {
+                                CurrentProp._B = String2Symbol(right[0]);
+                            }
+                            else
+                            {
+                                CurrentProp._BRef = generateProp(right);
+                            }
+                        }
+
+                        if (possible_linkers[1] == Operations.NotSet) // if brakets are on right side
+                        {
+                            string[] right = new string[Parenthesist_pos[1] - Parenthesist_pos[0] - 2]; //room what is in brakets
+                            string[] left = new string[PropositionString.Length - right.Length - 2]; // room for what is left (- 2 for prop & 0 indexed array)
+                            Array.Copy(PropositionString, 0, left, 0, left.Length); // put what is in brakets in left
+                            Array.Copy(PropositionString, Parenthesist_pos[0] + 1, right, 0, right.Length); // put what is left in right
+                            CurrentProp._BRef = generateProp(right);
+                            CurrentProp._Operation = possible_linkers[0];
+                            if (left.Length == 1) // if it is next to a symbol not prop
+                            {
+                                CurrentProp._A= String2Symbol(left[0]);
+                            }
+                            else
+                            {
+                                CurrentProp._ARef = generateProp(right);
+                            }
+
+
+                        }
+                        
                     }
                     
                     if(ParenthesisCount < 0)
@@ -155,13 +196,16 @@ namespace InferenceEngine
 
             }
 
-            //If there are no brakets continure bellow
+            if(ParenthesisCount != 0){
+                throw new System.ArgumentException("Miss matched Parenthesis in Propostion (Code logic error)");
+            }
+            //If there are no brakets continue bellow
 
-            string[] right = new string[PropositionString.Length - 2];
-            Array.Copy(PropositionString, 2, right, 0, PropositionString.Length - 2);
+            string[] rightprop = new string[PropositionString.Length - 2];
+            Array.Copy(PropositionString, 2, rightprop, 0, PropositionString.Length - 2);
             CurrentProp._A = String2Symbol(PropositionString[0]);
             CurrentProp._Operation = String2Operation(PropositionString[1]);
-            CurrentProp._BRef = generateProp(right);
+            CurrentProp._BRef = generateProp(rightprop);
 
             /* info on leaf nodes
             string[] left = new string[3];
@@ -170,7 +214,7 @@ namespace InferenceEngine
             Array.Copy(PropositionString,2,right,0,PropositionString.Length-2);
             CurrentProp._ARef = generateProp(left);
             CurrentProp._BRef = generateProp(right);
-         
+            */
              
            
             //find highest brakets, left to right on even levels
