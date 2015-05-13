@@ -89,6 +89,14 @@ namespace UnitTests
             string[] teststring = { "((a^h)v(c^d))=>((c^f)&(dvh))" };
             test.ParseProps(teststring);
         }
+        [TestMethod]
+        public void MultiProps_Complicatied()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "(a^b)vc", "a^bvc=>d&e^fvg&h^i","(a^b)v(c^d)=>(b^c)", "((a^b)v(c^d))=>((e^f)&(gvh))","((a^h)v(c^d))=>((c^f)&(dvh))"};
+            test.ParseProps(teststring);
+        }
 
     }
 }

@@ -17,13 +17,13 @@ namespace InferenceEngine
 
         public Proposition[] ParseProps(string[] Propositions)
         {
-            foreach (string prop in Propositions)
+            Proposition[] result = new Proposition[Propositions.Length];
+            for(int i = 0 ; i < Propositions.Length;i++)
             {
-                string[] splitted = SplitString(prop);
-                Proposition temp = generateProp(splitted);
-                int a = 1+1; //temp line for brakpoint in debuging - remove
+                string[] splitted = SplitString(Propositions[i]);
+               result[i] = generateProp(splitted);
             }
-            return null;
+            return result;
 
         }
 
