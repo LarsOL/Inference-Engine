@@ -27,5 +27,9 @@ namespace InferenceEngine
         /// Both way Implication
         /// </summary>
         Biconditional,
+        /// <summary>
+        /// Enum Not set yet
+        /// </summary>
+        NotSet,
     }
 }

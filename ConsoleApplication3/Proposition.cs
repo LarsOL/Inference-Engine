@@ -21,6 +21,7 @@ namespace InferenceEngine
             _IsRoot = false;
             _A = -1;
             _B = -1;
+            _Operation = Operations.NotSet;
         }
 
         public bool _IsRoot { get; set; }

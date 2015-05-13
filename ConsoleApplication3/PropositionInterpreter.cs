@@ -21,7 +21,7 @@ namespace InferenceEngine
             {
                 string[] splitted = SplitString(prop);
                 Proposition temp = generateProp(splitted);
-                int a = 1 + 1;
+                null;
             }
             return null;
 
@@ -77,8 +77,7 @@ namespace InferenceEngine
 
         private Proposition generateProp(string[] PropositionString)
         {
-            int ParenthesisCount = 0;
-            bool containsParenthesis = false;
+            
 
            Proposition CurrentProp = new Proposition();
            
@@ -95,32 +94,83 @@ namespace InferenceEngine
                 throw new System.ArgumentException("Less than 3 agruements in base case");
             }
 
-            foreach (string single in PropositionString)
+            int ParenthesisCount = 0;
+            int deepest_Parenthesis = 0;
+            bool containsParenthesis = false;
+            int SetShift = 0;
+            List<Operations> possible_linkers = new List<Operations>(); // before & after the first ( and before and after the last )
+            List<int> Parenthesist_pos = new List<int>();
+
+
+            for(int i = 0 ; i < PropositionString.Length ; i++)
             {
-                if(single.Contains("("))
+                
+                if(PropositionString[i].Contains("("))
                 {
-                    containsParenthesis = true;
-                    break;
+                    
+                    if(ParenthesisCount == 0) // found the start of a top level braket
+                    {
+                        if(i > 0) // Dont go out of array bounds
+                        {
+                            try{ // see if there is a valid operation linker
+                            possible_linkers.Add(String2Operation(PropositionString[i-1])); 
+                            }
+                            catch (System.ArgumentException e)
+                            {
+                                // not vaild skip
+                            }
+                        }                        
+                    }
+                    
+                    ParenthesisCount++;
+
+                    if(i == PropositionString.Length - 1 && ParenthesisCount != 0)
+                        throw new System.ArgumentException("Miss matched Parenthesis in Propostion");
+
                 }
+                else if(PropositionString[i].Contains(")"))
+                {
+                    ParenthesisCount--;
+
+                    if(ParenthesisCount == 0) // found the end of a top level braket
+                    {
+                        if(i < PropositionString.Length - 1) // Dont go out of array bounds
+                            {
+                                try{ // see if there is a valid operation linker
+                                possible_linkers.Add(String2Operation(PropositionString[i+1])); 
+                                }
+                                catch (System.ArgumentException e)
+                                {
+                                    // not vaild skip
+                                }
+                            }
+                    }
+                    
+                    if(ParenthesisCount < 0)
+                        throw new System.ArgumentException("Miss matched Parenthesis in Propostion");
+                    if(i == PropositionString.Length - 1 && ParenthesisCount != 0)
+                        throw new System.ArgumentException("Miss matched Parenthesis in Propostion");
+                }
+
+
             }
 
-            if(!containsParenthesis) // if on same bracket lvl string together
-            {
-                string[] right = new string[PropositionString.Length - 2];
-                Array.Copy(PropositionString, 2, right, 0, PropositionString.Length - 2);
-                CurrentProp._A = String2Symbol(PropositionString[0]);
-                CurrentProp._Operation = String2Operation(PropositionString[1]);
-                CurrentProp._BRef = generateProp(right);
+            //If there are no brakets continure bellow
 
-                /* info on leaf nodes
-                string[] left = new string[3];
-                string[] right = new string[PropositionString.Length -2];
-                Array.Copy(PropositionString,0,left,0,3);
-                Array.Copy(PropositionString,2,right,0,PropositionString.Length-2);
-                CurrentProp._ARef = generateProp(left);
-                CurrentProp._BRef = generateProp(right);
-                 */
-            }
+            string[] right = new string[PropositionString.Length - 2];
+            Array.Copy(PropositionString, 2, right, 0, PropositionString.Length - 2);
+            CurrentProp._A = String2Symbol(PropositionString[0]);
+            CurrentProp._Operation = String2Operation(PropositionString[1]);
+            CurrentProp._BRef = generateProp(right);
+
+            /* info on leaf nodes
+            string[] left = new string[3];
+            string[] right = new string[PropositionString.Length -2];
+            Array.Copy(PropositionString,0,left,0,3);
+            Array.Copy(PropositionString,2,right,0,PropositionString.Length-2);
+            CurrentProp._ARef = generateProp(left);
+            CurrentProp._BRef = generateProp(right);
+         
              
            
             //find highest brakets, left to right on even levels
