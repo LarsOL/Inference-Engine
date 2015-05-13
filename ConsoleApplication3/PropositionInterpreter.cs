@@ -21,7 +21,7 @@ namespace InferenceEngine
             {
                 string[] splitted = SplitString(prop);
                 Proposition temp = generateProp(splitted);
-                null;
+                int a = 1+1; //temp line for brakpoint in debuging - remove
             }
             return null;
 
@@ -72,13 +72,15 @@ namespace InferenceEngine
         private string[] SplitString(string Proposition)
         {
             string pattern = "(v|=>|&|" + System.Text.RegularExpressions.Regex.Escape("^") + "|" + System.Text.RegularExpressions.Regex.Escape("(") + "|" + System.Text.RegularExpressions.Regex.Escape(")")  + ")";
-            return System.Text.RegularExpressions.Regex.Split(Proposition, pattern) ;
+            string[] ans = System.Text.RegularExpressions.Regex.Split(Proposition, pattern) ;
+            ans = ans.Where(x => !string.IsNullOrEmpty(x)).ToArray(); // deal with symbols next to each other making empty strings
+            return ans;
         }
 
         private Proposition generateProp(string[] PropositionString)
         {
-            
-
+           
+              
            Proposition CurrentProp = new Proposition();
            
            if(PropositionString.Length == 3){ // base case
@@ -94,7 +96,7 @@ namespace InferenceEngine
             }
 
             int ParenthesisCount = 0;
-            Operations[] possible_linkers = new Operations[2]; // before & after the first ( and before and after the last )
+            Operations[] possible_linkers = new Operations[2]{Operations.NotSet,Operations.NotSet}; // before & after the first ( and before and after the last )
             int[] Parenthesist_pos = new int[2];
 
 
@@ -121,8 +123,6 @@ namespace InferenceEngine
                     
                     ParenthesisCount++;
 
-                    if(i == PropositionString.Length - 1 && ParenthesisCount != 0)
-                        throw new System.ArgumentException("Miss matched Parenthesis in Propostion");
 
                 }
                 else if(PropositionString[i].Contains(")"))
@@ -132,6 +132,14 @@ namespace InferenceEngine
                     if(ParenthesisCount == 0) // found the end of a top level braket
                     {
                         Parenthesist_pos[1] = i;
+                        if (Parenthesist_pos[0] == 0 && Parenthesist_pos[1] == PropositionString.Length - 1)// strip brackets if they are around the whole term
+                        {
+                             string[] stripbrackets = new string[PropositionString.Length - 2]; 
+                             Array.Copy(PropositionString, 1, stripbrackets, 0, stripbrackets.Length);
+                             return generateProp(stripbrackets);
+                           
+                        }
+                       
                         if(i < PropositionString.Length - 1) // Dont go out of array bounds
                             {
                                 try{ // see if there is a valid operation linker
@@ -149,8 +157,8 @@ namespace InferenceEngine
                         // recurse - take  high level brackets put it on one side of prop, put whats left on other side
                         if(possible_linkers[0] == Operations.NotSet) // if brakets are on left side
                         {
-                            string[] left = new string[Parenthesist_pos[1]- Parenthesist_pos[0] - 2]; //room what is in brakets
-                            string[] right = new string[PropositionString.Length - left.Length - 2]; // room for what is left (- 2 for prop symbol & 0 indexed array)
+                            string[] left = new string[Parenthesist_pos[1]- Parenthesist_pos[0] - 1]; //room what is in brakets
+                            string[] right = new string[PropositionString.Length - left.Length - 3]; // room for what is left (- 1 for prop symbol -2 for brakets )
                             Array.Copy(PropositionString, Parenthesist_pos[0] + 1, left, 0, left.Length); // put what is in brakets in left
                             Array.Copy(PropositionString, Parenthesist_pos[1] + 2, right, 0, right.Length); // put what is left in right
                             CurrentProp._ARef = generateProp(left);
@@ -163,6 +171,7 @@ namespace InferenceEngine
                             {
                                 CurrentProp._BRef = generateProp(right);
                             }
+                            return CurrentProp;
                         }
 
                         if (possible_linkers[1] == Operations.NotSet) // if brakets are on right side
@@ -181,18 +190,18 @@ namespace InferenceEngine
                             {
                                 CurrentProp._ARef = generateProp(right);
                             }
-
-
+                            return CurrentProp;
+                            
                         }
                         
                     }
                     
                     if(ParenthesisCount < 0)
                         throw new System.ArgumentException("Miss matched Parenthesis in Propostion");
-                    if(i == PropositionString.Length - 1 && ParenthesisCount != 0)
-                        throw new System.ArgumentException("Miss matched Parenthesis in Propostion");
+                    
                 }
-
+                if(i == PropositionString.Length - 1 && ParenthesisCount != 0)
+                     throw new System.ArgumentException("Miss matched Parenthesis in Propostion");
 
             }
 
