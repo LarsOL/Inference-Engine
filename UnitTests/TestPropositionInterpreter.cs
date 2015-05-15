@@ -14,7 +14,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = {"a^b"};
+            string[] teststring = {"a&b"};
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -22,7 +22,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "a^bvc" };
+            string[] teststring = { "a&b|c" };
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -30,7 +30,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "a^bvc=>d&e^fvg&h^i" };
+            string[] teststring = { "a&b|c=>d&e|f&g&h|i" };
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -38,7 +38,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "a^gvc=>d&c^fvg&b^c" };
+            string[] teststring = { "a|g&c<=>d&c|f&g|b|c" };
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -46,7 +46,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "(a^b)vc" };
+            string[] teststring = { "(a&b)|c" };
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -54,7 +54,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "(a^b)v(c^d)" };
+            string[] teststring = { "(a&b)|(c&d)" };
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -62,7 +62,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "(a^b)v(c^d)=>(b^c)" };
+            string[] teststring = { "(a&b)|(c|d)<=>(b&c)" };
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -70,7 +70,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "((a^b)v(c^d))=>c" };
+            string[] teststring = { "((a|b)&(c|d))=>c" };
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -78,7 +78,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "((a^b)v(c^d))=>((e^f)&(gvh))" };
+            string[] teststring = { "((a|b)&(c|d))=>((e|f)&(g|h))" };
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -86,7 +86,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "((a^h)v(c^d))=>((c^f)&(dvh))" };
+            string[] teststring = { "((a&h)|(c&d))=>((c|f)&(d|h))" };
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -94,7 +94,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "(a^b)vc", "a^bvc=>d&e^fvg&h^i","(a^b)v(c^d)=>(b^c)", "((a^b)v(c^d))=>((e^f)&(gvh))","((a^h)v(c^d))=>((c^f)&(dvh))"};
+            string[] teststring = { "(a&b)|c", "a&b|c=>d&e|f&g&h|i","(a|b)&(c|d)=>(b|c)", "((a&b)|(c&d))=>((e&f)&(g|h))","((a&h)|(c&d))=>((c|f)&(d|h))"};
             test.ParseProps(teststring);
         }
 

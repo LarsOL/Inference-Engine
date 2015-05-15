@@ -16,8 +16,17 @@ namespace InferenceEngine
 
         public void SetName(string Name)
         {
-           if(!_Names.Contains(Name)) //if name is not already in list 
-            _Names.Add(Name);
+            if (Name != "|" || Name != "<=>" || Name != "=>" || Name != "&" || Name != "~" || Name != "(" || Name != ")")
+            {
+                if (!_Names.Contains(Name)) //if name is not already in list 
+                {
+                    _Names.Add(Name);
+                }
+            }
+            else
+                throw new System.ArgumentException("Not a symbol varible");
+            
+          
         }
 
         public int GetIndexOfName(String Name)

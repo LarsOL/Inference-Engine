@@ -37,25 +37,19 @@ namespace InferenceEngine
 
         private int String2Symbol(string InputString){
         
-            if (InputString != "^" || InputString != "v" || InputString != "=>" || InputString != "&" || InputString != "!" || InputString != "(" || InputString != ")"){
-                    _Model.SetName(InputString);
-                    return _Model.GetIndexOfName(InputString);
-               }
-            else
-                throw new System.ArgumentException("Not a symbol varible");
-            
+          _Model.SetName(InputString);
+          return _Model.GetIndexOfName(InputString);
+           
         }
 
         private Operations String2Operation(string InputString){
             switch(InputString)
             {
-                case "^":
-                    return Operations.Conjunction;             
                 case "&":
                     return Operations.Conjunction;                  
-                case "v":
+                case "|":
                     return Operations.Disjunction;
-                case "!":
+                case "~":
                     return Operations.Negation;                
                 case "=>":
                     return Operations.Implication;
@@ -71,7 +65,7 @@ namespace InferenceEngine
 
         private string[] SplitString(string Proposition)
         {
-            string pattern = "(v|=>|&|" + System.Text.RegularExpressions.Regex.Escape("^") + "|" + System.Text.RegularExpressions.Regex.Escape("(") + "|" + System.Text.RegularExpressions.Regex.Escape(")")  + ")";
+            string pattern = "(~|<=>|=>|&|" + System.Text.RegularExpressions.Regex.Escape("|") + "|" + System.Text.RegularExpressions.Regex.Escape("(") + "|" + System.Text.RegularExpressions.Regex.Escape(")")  + ")";
             string[] ans = System.Text.RegularExpressions.Regex.Split(Proposition, pattern) ;
             ans = ans.Where(x => !string.IsNullOrEmpty(x)).ToArray(); // deal with symbols next to each other making empty strings
             return ans;
@@ -116,7 +110,7 @@ namespace InferenceEngine
                             }
                             catch (System.ArgumentException e)
                             {
-                                possible_linkers[0] = Operations.NotSet; // not vaild skip
+                                // not vaild skip
                             }
                         }                        
                     }
@@ -147,7 +141,7 @@ namespace InferenceEngine
                                 }
                                 catch (System.ArgumentException e)
                                 {
-                                    possible_linkers[0] = Operations.NotSet; // not vaild skip
+                                    // not vaild skip
                                 }
                             }
                         if (possible_linkers[0] == Operations.NotSet && possible_linkers[1] == Operations.NotSet)
@@ -216,16 +210,7 @@ namespace InferenceEngine
             CurrentProp._Operation = String2Operation(PropositionString[1]);
             CurrentProp._BRef = generateProp(rightprop);
 
-            /* info on leaf nodes
-            string[] left = new string[3];
-            string[] right = new string[PropositionString.Length -2];
-            Array.Copy(PropositionString,0,left,0,3);
-            Array.Copy(PropositionString,2,right,0,PropositionString.Length-2);
-            CurrentProp._ARef = generateProp(left);
-            CurrentProp._BRef = generateProp(right);
-            */
-             
-           
+            
             //find highest brakets, left to right on even levels
             // pass whats inside brakets through
             // take inside brakets recurse through function
