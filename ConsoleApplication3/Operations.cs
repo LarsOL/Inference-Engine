@@ -25,6 +25,7 @@ namespace InferenceEngine
         Implication,
         /// <summary>
         /// Both way Implication
+        ///  - ie only true when both are true or both are false
         /// </summary>
         Biconditional,
     }
