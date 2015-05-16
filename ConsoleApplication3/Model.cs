@@ -14,6 +14,14 @@ namespace InferenceEngine
             _Names = new List<string>();
         }
 
+        public int Length
+        {
+            get
+            {
+                return _Names.Count;
+            }
+        }
+
         public void SetName(string Name)
         {
             if (Name != "|" || Name != "<=>" || Name != "=>" || Name != "&" || Name != "~" || Name != "(" || Name != ")")

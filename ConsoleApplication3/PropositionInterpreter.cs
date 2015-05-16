@@ -7,7 +7,7 @@ namespace InferenceEngine
 {
     public class PropositionInterpreter
     {
-         private Model _Model;
+        private Model _Model;
         
         public PropositionInterpreter(ref Model ProgramModel)
         {

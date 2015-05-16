@@ -6,11 +6,11 @@ namespace UnitTests
 {
     [TestClass]
     
-    public class TestPropositionInterpreter
+    public class PropositionInterpreterTest
     {
         // NOTE: NOT A STRICT TEST YET, ONLY CHECKS TO SEE THE METHOD FINISHES, NOT THE CORRECT ANSWER.
         [TestMethod]
-        public void NoBrackets_B3feild()
+        public void NoBrackets_3feild()
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);

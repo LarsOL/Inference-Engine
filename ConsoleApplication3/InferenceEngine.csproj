@@ -49,6 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proposition.cs" />
     <Compile Include="PropositionInterpreter.cs" />
+    <Compile Include="TruthTable.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
