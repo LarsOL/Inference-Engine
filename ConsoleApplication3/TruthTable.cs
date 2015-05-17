@@ -14,10 +14,12 @@ namespace InferenceEngine
             _Model = ProgramModel;
             _ProblemSpace = ProblemSpace;
         }
-
+        
        public string graphical_solve()
         {
             string answer = "";
+            bool break_early = false; // debugging
+           
             // make heading table
             for (int i = 0; i < _Model.Length; i++)
             {
@@ -28,9 +30,10 @@ namespace InferenceEngine
             {
                 answer += "Prop #" + i + "  |  ";
             }
-            answer += "Goal | Goal holds in World";
+            answer += "| KB  |  Goal  | KB & Goal";
             answer += System.Environment.NewLine;
-            // done 
+            // done  
+            bool is_valid = true;
             bool[] arguments = new bool[_Model.Length];
             for (int i = 0; i < (1 << _Model.Length); i++) // for each combination
             {  // modifed from https://stackoverflow.com/questions/12488876/all-possible-combinations-of-boolean-variables
@@ -42,17 +45,23 @@ namespace InferenceEngine
 
                 _ProblemSpace._Arguments = arguments; // set the world state
 
-                bool Everything_true = true;
+                bool Knowledge_true = true;
+               
                 for (int j = 0; j < _ProblemSpace.NoPropositions(); j++) // check each proposition in the knowledge base 
                 {
                     answer += _ProblemSpace.IsTrue(j) + "  |  " ;
-                    Everything_true = Everything_true && _ProblemSpace.IsTrue(j);
+                    Knowledge_true = Knowledge_true && _ProblemSpace.IsTrue(j);
 
                 }
-                answer += _ProblemSpace.IsTrue(-1)+ "  |  "; //goal proposition
-                Everything_true = Everything_true && _ProblemSpace.IsTrue(-1);
-                answer += Everything_true; // does goal and knowgelde base hold for this world?
-
+                answer += Knowledge_true + "  |  ";  // is KB true in this world
+                bool goal_true = _ProblemSpace.IsTrue(-1);
+                answer += goal_true  + "  |  "; //goal proposition
+                answer += Knowledge_true && goal_true; //Does both goal and KB hold
+                is_valid = is_valid && !(Knowledge_true && !goal_true); // invalid when KB is true and goal is false
+                if (!is_valid && break_early) { // problem already invalid, no need to continue
+                    return answer;
+                }
+                // does goal and knowgelde base hold for this world?
                 answer += System.Environment.NewLine;
             }
 
