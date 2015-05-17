@@ -71,13 +71,27 @@ namespace InferenceEngine
             return ans;
         }
 
+        private List<int> NotsPosition(string[] PropositionString)
+        {
+            List<int> Position = new List<int>;
+            for(int i = 0; i < PropositionString.Length; i++)
+            {
+                if (PropositionString[i] == "~")
+                    Position.Add(i);
+            }
+            return Position;
+        }
+
         private Proposition generateProp(string[] PropositionString)
         {
            
               
            Proposition CurrentProp = new Proposition();
-           
-           if(PropositionString.Length == 3){ // base case
+
+           List<int> PositionNots = NotsPosition(PropositionString);
+           int AmountNots = PositionNots.Count;
+
+           if((PropositionString.Length - AmountNots) == 3){ // base case
                 CurrentProp._A = String2Symbol(PropositionString[0]);
                 CurrentProp._Operation = String2Operation(PropositionString[1]);
                 CurrentProp._B = String2Symbol(PropositionString[2]);
@@ -97,7 +111,7 @@ namespace InferenceEngine
             for(int i = 0 ; i < PropositionString.Length ; i++) //find high level brakets, srtring together prop left to right
             {
                 
-                if(PropositionString[i].Contains("("))
+                if(PropositionString[i] == "(")
                 {
                     
                     if(ParenthesisCount == 0) // found the start of a top level braket
@@ -119,7 +133,7 @@ namespace InferenceEngine
 
 
                 }
-                else if(PropositionString[i].Contains(")"))
+                else if(PropositionString[i] == ")")
                 {
                     ParenthesisCount--;
 
