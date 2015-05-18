@@ -11,20 +11,25 @@ namespace InferenceEngine
 
         public int Length
         {
-            get {
+            get 
+            {
                 return _Propostions.Length;
             }
         }
 
-        public KnowledgeBase(InferenceEngine.Proposition[] Porpositions)
+        public KnowledgeBase(InferenceEngine.Proposition[] Propositions)
         {
-            throw new System.NotImplementedException();
-            
+            _Propostions = Propositions;
         }
 
-        public void IsTrue(int PropositionNo, bool[] Arguements)
+        public bool IsTrue(int PropositionNo, bool[] Arguements)
         {
-            throw new System.NotImplementedException();
+            return _Propostions[PropositionNo].IsTrue(Arguements);
+        }
+
+        public int[] Requirements(int PropositionNo)
+        {
+            return _Propostions[PropositionNo].Requirements();
         }
     }
 }
