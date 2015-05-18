@@ -65,10 +65,41 @@ namespace InferenceEngine
 
         private string[] SplitString(string Proposition)
         {
-            string pattern = "(~|<=>|=>|&|" + System.Text.RegularExpressions.Regex.Escape("|") + "|" + System.Text.RegularExpressions.Regex.Escape("(") + "|" + System.Text.RegularExpressions.Regex.Escape(")")  + ")";
+            string pattern = "(<=>|=>|&|" + System.Text.RegularExpressions.Regex.Escape("|") + "|" + System.Text.RegularExpressions.Regex.Escape("(") + "|" + System.Text.RegularExpressions.Regex.Escape(")")  + ")";
             string[] ans = System.Text.RegularExpressions.Regex.Split(Proposition, pattern) ;
             ans = ans.Where(x => !string.IsNullOrEmpty(x)).ToArray(); // deal with symbols next to each other making empty strings
             return ans;
+        }
+        /// <summary>
+        /// Parse for the not and set the side
+        /// </summary>
+        /// <param name="SetingProp"></param>
+        /// <param name="srtPropostion"></param>
+        /// <param name="side">true is left side, false is right</param>
+
+        private Proposition SetProp(ref Proposition SetingProp ,string srtPropostion,bool side) 
+        {
+            if(srtPropostion[0] == '~')
+            {
+                srtPropostion.Substring(1);
+                if(side)
+                {
+                    SetingProp.IsnottedA = true;
+                }
+                else
+                {
+                    SetingProp.IsnottedB = true;
+                }
+            }
+
+            if(side)
+            {
+                SetingProp.setA(String2Symbol(srtPropostion))
+            }
+            else
+            {
+                SetingProp.setB(String2Symbol(srtPropostion))
+            }
         }
 
         private List<int> NotsPosition(string[] PropositionString)
@@ -84,14 +115,13 @@ namespace InferenceEngine
 
         private Proposition generateProp(string[] PropositionString)
         {
-           
-              
+                     
            Proposition CurrentProp = new Proposition();
 
            List<int> PositionNots = NotsPosition(PropositionString);
            int AmountNots = PositionNots.Count;
 
-           if((PropositionString.Length - AmountNots) == 3){ // base case
+           if(PropositionString.Length  == 3){ // base case
                 CurrentProp._A = String2Symbol(PropositionString[0]);
                 CurrentProp._Operation = String2Operation(PropositionString[1]);
                 CurrentProp._B = String2Symbol(PropositionString[2]);
