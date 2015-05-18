@@ -29,7 +29,7 @@ namespace InferenceEngine
 
         public int[] Requirements(int PropositionNo)
         {
-            return _Propostions[PropositionNo].Requirements();
+            return _Propostions[PropositionNo].Requirements().ToArray();
         }
     }
 }
