@@ -105,7 +105,7 @@ namespace InferenceEngine
             if(left.Length == 1){
                 if(left[0][0] == '~') // "~A"
                 {
-                   left[0].Substring(1);
+                   left[0] = left[0].Substring(1);
                    returnProp.ANotted = true;
                 }
                 returnProp.setA(String2Symbol(left[0]));
@@ -119,7 +119,7 @@ namespace InferenceEngine
             {
                 if (right[0][0] == '~') // "~A"
                 {
-                    right[0].Substring(1);
+                    right[0] = right[0].Substring(1);
                     returnProp.BNotted = true;
                 }
                 returnProp.setB(String2Symbol(right[0]));
@@ -221,8 +221,8 @@ namespace InferenceEngine
 
                         if (possible_linkers[1] == Operations.NotSet) // if brakets are on right side
                         {
-                            string[] right = new string[Parenthesist_pos[1] - Parenthesist_pos[0] - 2]; //room what is in brakets
-                            string[] left = new string[PropositionString.Length - right.Length - 2]; // room for what is left (- 2 for prop & 0 indexed array)
+                            string[] right = new string[Parenthesist_pos[1] - Parenthesist_pos[0] - 1]; //room what is in brakets
+                            string[] left = new string[PropositionString.Length - right.Length - 3]; // room for what is left (- 2 for prop & 0 indexed array)
                             Array.Copy(PropositionString, 0, left, 0, left.Length); // put what is in brakets in left
                             Array.Copy(PropositionString, Parenthesist_pos[0] + 1, right, 0, right.Length); // put what is left in right
                             CurrentProp = SetProp(left, possible_linkers[0], right);

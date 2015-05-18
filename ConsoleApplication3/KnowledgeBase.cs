@@ -11,12 +11,12 @@ namespace InferenceEngine
 
         public KnowledgeBase(InferenceEngine.Proposition[] Porpositions)
         {
-            throw new System.NotImplementedException();
+            _Propostions = Porpositions;
         }
 
         public void IsTrue(int PropositionNo, bool[] Arguements)
         {
-            throw new System.NotImplementedException();
+            _Propostions[PropositionNo].IsTrue(Arguements);
         }
     }
 }

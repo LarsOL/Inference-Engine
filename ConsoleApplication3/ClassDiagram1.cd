@@ -8,9 +8,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="InferenceEngine.Proposition">
-    <Position X="5.5" Y="4" Width="2" />
+    <Position X="4.25" Y="4" Width="2" />
     <TypeIdentifier>
-      <HashCode>AQAEEAAAAAAAiAyAgBIAAAAAAAIAAAAAAQCAAUgACCA=</HashCode>
+      <HashCode>CQAEEAAAAAAAiAyAABIAAAAAAAIAAAAAAQGAAQgAACA=</HashCode>
       <FileName>Proposition.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -38,7 +38,7 @@
   <Class Name="InferenceEngine.PropositionInterpreter">
     <Position X="8.5" Y="1.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>CACAAAAAAAAAIAACAAAAAABCAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <HashCode>CACBAAAAAAAAIAACAEAAAABCAAAAAAAAAAAAAAAAAIA=</HashCode>
       <FileName>PropositionInterpreter.cs</FileName>
     </TypeIdentifier>
   </Class>
