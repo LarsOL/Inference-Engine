@@ -50,10 +50,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+
     <Compile Include="PropositionInterpreterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TruthTableTest.cs" />
     <Compile Include="WorldTest.cs" />
+    <Compile Include="TestProposition.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileTests.cs" />
+	<Compile Include="TestPropositionInterpreter.cs" />
+
+
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConsoleApplication3\InferenceEngine.csproj">

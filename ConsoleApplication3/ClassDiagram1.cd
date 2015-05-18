@@ -3,14 +3,14 @@
   <Class Name="InferenceEngine.FileInput">
     <Position X="6.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAADAAAAAQAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>FileInput.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="InferenceEngine.Proposition">
     <Position X="5.5" Y="4" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAEEAAAAAAACAgAAAAAAAAAAAIAAAAAAACAAEgAAAA=</HashCode>
+      <HashCode>AQAEEAAAAAAAiAyAgBIAAAAAAAIAAAAAAQCAAUgACCA=</HashCode>
       <FileName>Proposition.cs</FileName>
     </TypeIdentifier>
   </Class>

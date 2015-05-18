@@ -40,6 +40,7 @@ namespace UnitTests
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             string[] teststring = { "a|g&c<=>d&c|f&g|b|c" };
             test.ParseProps(teststring);
+            
         }
         [TestMethod]
         public void Brackets_3feild()
@@ -95,6 +96,22 @@ namespace UnitTests
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             string[] teststring = { "(a&b)|c", "a&b|c=>d&e|f&g&h|i","(a|b)&(c|d)=>(b|c)", "((a&b)|(c&d))=>((e&f)&(g|h))","((a&h)|(c&d))=>((c|f)&(d|h))"};
+            test.ParseProps(teststring);
+        }
+        [TestMethod]
+        public void NotTest()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = {"~a|B&~c"};
+            test.ParseProps(teststring);
+        }
+        [TestMethod]
+        public void NotTest_2feild()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "~a|~B" };
             test.ParseProps(teststring);
         }
 
