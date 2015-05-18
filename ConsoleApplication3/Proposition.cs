@@ -39,7 +39,7 @@ namespace InferenceEngine
             _ARef = null;
 
             _B = -1;
-            BNotted = true;
+            BNotted = false;
             _BRef = null;
 
             _IsRoot = false;

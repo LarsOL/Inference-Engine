@@ -15,6 +15,12 @@ namespace InferenceEngine
             _Model = ProgramModel;
         }
 
+        /// <summary>
+        /// Returns a array of parsed propositions as a Proposition[]
+        /// Goal prop is last one
+        /// </summary>
+        /// <param name="Propositions">Takes in a String[] of propostion in english, assumes last one is goal</param>
+        /// <returns></returns>
         public Proposition[] ParseProps(string[] Propositions)
         {
             Proposition[] result = new Proposition[Propositions.Length];
@@ -114,7 +120,7 @@ namespace InferenceEngine
                 if (right[0][0] == '~') // "~A"
                 {
                     right[0].Substring(1);
-                    returnProp.ANotted = true;
+                    returnProp.BNotted = true;
                 }
                 returnProp.setB(String2Symbol(right[0]));
             }

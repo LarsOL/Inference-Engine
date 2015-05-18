@@ -23,7 +23,7 @@ namespace UnitTests
             Proposition tempA = new Proposition(2, Operations.Conjunction, 3);
             Proposition tempB = new Proposition(9, Operations.Conjunction, 6);
 //            Proposition temp = new Proposition(tempA, Operations.Conjunction, tempB);
-
+            
         }
 
         [TestMethod]
