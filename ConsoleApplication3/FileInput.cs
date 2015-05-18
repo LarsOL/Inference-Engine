@@ -41,11 +41,14 @@ namespace InferenceEngine
                 // read 4th Line, Quiry for engine
                 String Ask = reader.ReadLine().Trim();
 
-                // remove white space and split tell into an array of each command
+                // remove white space and split tell into an array of rules
                 String[] SplitTell = RemoveWhiteSpace(Tell).Split(';');
 
                 // adds the quiry to the end of the array
-                string[] result = AddToEnd(SplitTell, Ask);
+                String[] result = AddToEnd(SplitTell, Ask);
+
+                //close file reader stream to release file
+                reader.Close();
 
                 //returns the result 
 			    return result;
@@ -71,30 +74,19 @@ namespace InferenceEngine
         /// </summary>
         /// <param name="Input"></param>
         /// <returns></returns>
-        private string RemoveWhiteSpace(string Input)
+        public string RemoveWhiteSpace(string Input)
         {
-            // make char List to remove white space
-            List<char> Modified = new List<char>();
 
-            // itterate through tell and copy non white space characters to modified
-            foreach (char item in Input.ToCharArray())
-            {
-                if (item != ' ')
-                {
-                    Modified.Add(item);
-                }
-            }
-
-            return Modified.ToString();
+            return new string(Input.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray());
         }
 
         /// <summary>
-        /// 
+        /// a function for adding on the goal to the end of the array
         /// </summary>
         /// <param name="input">string array</param>
         /// <param name="end">thing you want to add to the end</param>
         /// <returns></returns>
-        private string[] AddToEnd(string[] input, string end)
+        public string[] AddToEnd(string[] input, string end)
         {
 
             string[] result = new string[(input.Count() + 1)];
