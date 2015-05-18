@@ -29,19 +29,7 @@ namespace InferenceEngine
             _A = LValue;
             _B = RValue;
 
-            _Operation = Operation;
-        }
-        // Overload for "NOT" proposition
-        public Proposition(string Operation, int RValue)
-        {
-            if (Operation != "!")
-                throw new System.NotSupportedException(); // Relationships need 2 variables
-            else
-            {
-                _Operation = Operations.Negation;
-                _A = RValue;
-                _B = -1;
-            }
+            this.Operation = Operation;
         }
         // Defult constructor
         public Proposition()
@@ -55,7 +43,7 @@ namespace InferenceEngine
             _BRef = null;
 
             _IsRoot = false;
-            _Operation = Operations.NotSet;
+            Operation = Operations.NotSet;
         }
 
         public bool _IsRoot { get; set; }
@@ -118,32 +106,8 @@ namespace InferenceEngine
                 return true;
         }
 //......Operation.........................................................
-        private Operations _Operation;
-        public void setO(string O)
-        {
-            switch (O)
-            {
-                case "!":
-                    _Operation = Operations.Negation;     // NOT ... relationship shouldn't have 2 variables
-                    break;
-                case "&":
-                    _Operation = Operations.Conjunction;  // AND
-                    break;
-                case "|":
-                    _Operation = Operations.Disjunction;  // OR
-                    break;
-                case "=>":
-                    _Operation = Operations.Implication;
-                    break;
-                case "<=>":
-                    _Operation = Operations.Biconditional;
-                    break;
-            }
-        }
-        public Operations getO()
-        {
-            return _Operation;
-        }
+        public Operations Operation { get; set; }
+        
 //......IsTrue............................................................
         public bool IsTrue(bool[] Arguements)
         {
@@ -159,7 +123,7 @@ namespace InferenceEngine
                 B = !B;
 
             // Other Operations
-            switch (_Operation)
+            switch (Operation)
             {
                 case Operations.NotSet:
                     throw new System.NotSupportedException();

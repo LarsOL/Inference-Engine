@@ -8,6 +8,10 @@ namespace InferenceEngine
     public enum Operations
     {
         /// <summary>
+        /// Enum Not set yet
+        /// </summary>
+        NotSet,
+        /// <summary>
         /// Not
         /// </summary>
         Negation,
@@ -28,9 +32,6 @@ namespace InferenceEngine
         ///  - ie only true when both are true or both are false
         /// </summary>
         Biconditional,
-        /// <summary>
-        /// Enum Not set yet
-        /// </summary>
-        NotSet,
+        
     }
 }

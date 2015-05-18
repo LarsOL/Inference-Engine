@@ -12,7 +12,7 @@ namespace UnitTests
         {
             Proposition temp = new Proposition(2, Operations.Conjunction, 3);
             Operations O = Operations.Conjunction;
-            Assert.AreEqual(temp.getO(), O, "Operations Error");
+            Assert.AreEqual(temp.Operation, O, "Operations Error");
             Assert.AreEqual(temp.getA(), 2, "'A' error");
             Assert.AreEqual(temp.getB(), 3, "'B' error");
         }
@@ -30,33 +30,28 @@ namespace UnitTests
         public void testOperations()
         {
             Proposition tempAnd = new Proposition(2, Operations.Conjunction, 3);
-            Assert.AreEqual(Operations.Conjunction, tempAnd.getO(), "AND Error");
+            Assert.AreEqual(Operations.Conjunction, tempAnd.Operation, "AND Error");
 
             Proposition tempOr = new Proposition(2, Operations.Disjunction, 3);
-            Assert.AreEqual(Operations.Disjunction, tempOr.getO(), "OR Error");
+            Assert.AreEqual(Operations.Disjunction, tempOr.Operation, "OR Error");
            
 //          Proposition tempNot = new Proposition("!", 3);
 //          Assert.AreEqual(Operations.Negation, tempNot.getO(), "NOT Error");
 
             Proposition tempImp = new Proposition(2, Operations.Implication, 3);
-            Assert.AreEqual(Operations.Implication, tempImp.getO(), "Implication Error");
+            Assert.AreEqual(Operations.Implication, tempImp.Operation, "Implication Error");
 
             Proposition tempBic = new Proposition(2, Operations.Biconditional, 3);
-            Assert.AreEqual(Operations.Biconditional, tempBic.getO(), "Biconditional Error");
+            Assert.AreEqual(Operations.Biconditional, tempBic.Operation, "Biconditional Error");
             
             Proposition tempNS = new Proposition();
-            Assert.AreEqual(Operations.NotSet, tempNS.getO(), "Not Set Error");
+            Assert.AreEqual(Operations.NotSet, tempNS.Operation, "Not Set Error");
         }
 
 //       [TestMethod]
         public void testIsTrueNot()
         {
-            Proposition tempNot = new Proposition("!", 1);
-            bool[] NotT = { true, true };
-            Assert.AreEqual(false, tempNot.IsTrue(NotT), "!T error");
-
-            bool[] NotF = { false, false };
-            Assert.AreEqual(true, tempNot.IsTrue(NotF), "!F error");
+            //IMPLEMENT!
         }
         
         [TestMethod]

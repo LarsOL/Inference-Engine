@@ -70,41 +70,12 @@ namespace InferenceEngine
             ans = ans.Where(x => !string.IsNullOrEmpty(x)).ToArray(); // deal with symbols next to each other making empty strings
             return ans;
         }
-        /// <summary>
-        /// Parse for the not and set the side
-        /// </summary>
-        /// <param name="SetingProp"></param>
-        /// <param name="srtPropostion"></param>
-        /// <param name="side">true is left side, false is right</param>
+     
 
-        private Proposition SetProp(ref Proposition SetingProp ,string srtPropostion,bool side) 
-        {
-            if(srtPropostion[0] == '~')
-            {
-                srtPropostion.Substring(1);
-                if(side)
-                {
-                    SetingProp.IsnottedA = true;
-                }
-                else
-                {
-                    SetingProp.IsnottedB = true;
-                }
-            }
-
-            if(side)
-            {
-                SetingProp.setA(String2Symbol(srtPropostion))
-            }
-            else
-            {
-                SetingProp.setB(String2Symbol(srtPropostion))
-            }
-        }
-
+        
         private List<int> NotsPosition(string[] PropositionString)
         {
-            List<int> Position = new List<int>;
+            List<int> Position = new List<int>();
             for(int i = 0; i < PropositionString.Length; i++)
             {
                 if (PropositionString[i] == "~")
@@ -113,18 +84,57 @@ namespace InferenceEngine
             return Position;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="oper"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        private Proposition SetProp(string[] left ,Operations oper, string[] right) 
+        {
+
+            Proposition returnProp = new Proposition();
+
+            if(left.Length == 1){
+                if(left[0][0] == '~') // "~A"
+                {
+                   left[0].Substring(1);
+                   returnProp.ANotted = true;
+                }
+                returnProp.setA(String2Symbol(left[0]));
+            }
+            else
+            {
+                returnProp.setA(generateProp(left));
+            }
+
+            if (right.Length == 1)
+            {
+                if (right[0][0] == '~') // "~A"
+                {
+                    right[0].Substring(1);
+                    returnProp.ANotted = true;
+                }
+                returnProp.setB(String2Symbol(right[0]));
+            }
+            else
+            {
+                returnProp.setB(generateProp(right));
+            }
+
+            returnProp.Operation = oper;
+
+            return returnProp;
+        }
+
         private Proposition generateProp(string[] PropositionString)
         {
-                     
+
            Proposition CurrentProp = new Proposition();
-
-           List<int> PositionNots = NotsPosition(PropositionString);
-           int AmountNots = PositionNots.Count;
-
+                  
            if(PropositionString.Length  == 3){ // base case
-                CurrentProp._A = String2Symbol(PropositionString[0]);
-                CurrentProp._Operation = String2Operation(PropositionString[1]);
-                CurrentProp._B = String2Symbol(PropositionString[2]);
+                CurrentProp = SetProp(new[] {PropositionString[0]},String2Operation(PropositionString[1]),new[] {PropositionString[2]});
                 return CurrentProp;
             }
 
@@ -199,16 +209,7 @@ namespace InferenceEngine
                             string[] right = new string[PropositionString.Length - left.Length - 3]; // room for what is left (- 1 for prop symbol -2 for brakets )
                             Array.Copy(PropositionString, Parenthesist_pos[0] + 1, left, 0, left.Length); // put what is in brakets in left
                             Array.Copy(PropositionString, Parenthesist_pos[1] + 2, right, 0, right.Length); // put what is left in right
-                            CurrentProp._ARef = generateProp(left);
-                            CurrentProp._Operation = possible_linkers[1];
-                            if(right.Length == 1) // if it is next to a symbol not prop
-                            {
-                                CurrentProp._B = String2Symbol(right[0]);
-                            }
-                            else
-                            {
-                                CurrentProp._BRef = generateProp(right);
-                            }
+                            CurrentProp = SetProp(left,possible_linkers[1],right);
                             return CurrentProp;
                         }
 
@@ -218,18 +219,8 @@ namespace InferenceEngine
                             string[] left = new string[PropositionString.Length - right.Length - 2]; // room for what is left (- 2 for prop & 0 indexed array)
                             Array.Copy(PropositionString, 0, left, 0, left.Length); // put what is in brakets in left
                             Array.Copy(PropositionString, Parenthesist_pos[0] + 1, right, 0, right.Length); // put what is left in right
-                            CurrentProp._BRef = generateProp(right);
-                            CurrentProp._Operation = possible_linkers[0];
-                            if (left.Length == 1) // if it is next to a symbol not prop
-                            {
-                                CurrentProp._A= String2Symbol(left[0]);
-                            }
-                            else
-                            {
-                                CurrentProp._ARef = generateProp(right);
-                            }
+                            CurrentProp = SetProp(left, possible_linkers[0], right);
                             return CurrentProp;
-                            
                         }
                         
                     }
@@ -250,14 +241,10 @@ namespace InferenceEngine
 
             string[] rightprop = new string[PropositionString.Length - 2];
             Array.Copy(PropositionString, 2, rightprop, 0, PropositionString.Length - 2);
-            CurrentProp._A = String2Symbol(PropositionString[0]);
-            CurrentProp._Operation = String2Operation(PropositionString[1]);
-            CurrentProp._BRef = generateProp(rightprop);
+            CurrentProp = SetProp(new[] { PropositionString[0] }, String2Operation(PropositionString[1]), rightprop);
+          
 
-            
-            //find highest brakets, left to right on even levels
-            // pass whats inside brakets through
-            // take inside brakets recurse through function
+          
             return CurrentProp;
         }
     }
