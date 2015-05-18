@@ -9,14 +9,27 @@ namespace InferenceEngine
     {
         private Proposition[] _Propostions;
 
-        public KnowledgeBase(InferenceEngine.Proposition[] Porpositions)
+        public int Length
         {
-            _Propostions = Porpositions;
+            get 
+            {
+                return _Propostions.Length;
+            }
         }
 
-        public void IsTrue(int PropositionNo, bool[] Arguements)
+        public KnowledgeBase(InferenceEngine.Proposition[] Propositions)
         {
-            _Propostions[PropositionNo].IsTrue(Arguements);
+            _Propostions = Propositions;
+        }
+
+        public bool IsTrue(int PropositionNo, bool[] Arguements)
+        {
+            return _Propostions[PropositionNo].IsTrue(Arguements);
+        }
+
+        public int[] Requirements(int PropositionNo)
+        {
+            return _Propostions[PropositionNo].Requirements();
         }
     }
 }
