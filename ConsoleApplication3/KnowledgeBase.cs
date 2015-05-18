@@ -19,17 +19,17 @@ namespace InferenceEngine
 
         public KnowledgeBase(InferenceEngine.Proposition[] Porpositions)
         {
-            throw new System.NotImplementedException();
+            _Propostions = Propositions;
         }
 
         public bool IsTrue(int PropositionNo, bool[] Arguements)
         {
-            throw new System.NotImplementedException();
+            return _Propostions[PropositionNo].IsTrue(Arguements);
         }
 
         public int[] Requirements(int PropositionNo)
         {
-            throw new System.NotImplementedException();
+            return _Propostions[PropositionNo].Requirements().ToArray();
         }
     }
 }

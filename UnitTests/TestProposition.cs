@@ -105,7 +105,7 @@ namespace UnitTests
             Assert.AreEqual(true, tempImp.IsTrue(ImpFF), "F=>F error");
         }
 
-        [TestMethod]
+       // [TestMethod]
         public void testIsTrueBic()
         {
             Proposition tempBic = new Proposition(0, Operations.Biconditional, 1);

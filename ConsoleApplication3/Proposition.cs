@@ -98,6 +98,18 @@ namespace InferenceEngine
         {
             return _BRef;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>True means b is a ref, false b is a symbol</returns>
+        public bool IsBref()
+        {
+            return _BRef != null;
+        }
+        public bool IsAref()
+        {
+            return _ARef != null;
+        }
         public bool BisSymbol()
         {
             if (_B == -1)
@@ -111,16 +123,36 @@ namespace InferenceEngine
 //......IsTrue............................................................
         public bool IsTrue(bool[] Arguements)
         {
+            bool left, right;
+            int leftSize = 1;
+            if (IsAref())
+            {
+                leftSize = _ARef.Requirements().Count;
+                bool[] leftarr = new bool[leftSize];
+                Array.Copy(Arguements, 0, leftarr,0, leftarr.Length);
+                left = _ARef.IsTrue(leftarr);
+            }
+            else
+            {
+                left = Arguements[0];
+            }
 
-            bool A = Arguements[_A];
-            bool B = Arguements[_B];
-            bool result = false;                         // Default false
-
+            bool[] rightarr = new bool[Arguements.Length - leftSize];
+            Array.Copy(Arguements, leftSize, rightarr, 0, rightarr.Length);
+            if (IsBref())
+            {
+                right = _BRef.IsTrue(rightarr);
+            }
+            else
+            {
+                right = rightarr[0];
+            }
+             
             // NOT
             if (ANotted)
-                A = !A;
+                left = !left;
             if (BNotted)
-                B = !B;
+                right = !right;
 
             // Other Operations
             switch (Operation)
@@ -130,33 +162,47 @@ namespace InferenceEngine
                 case Operations.Negation:                // NOT
                     throw new System.NotSupportedException();
                 case Operations.Conjunction:             // AND
-                   result = A && B ;
-                   break;
+                   return left && right ;
                 case Operations.Disjunction:             // OR
-                   result = A || B;
-                   break;
+                   return left || right;
                 case Operations.Implication:             // True when either A value = 0 or B value = 1, thus false when neither occur
-                   if ((A == true) && (B == false))
-                       result = false;
+                   if ((left == true) && (right == false))
+                       return false;
                    else
-                       result = true;
-                   break;
+                       return true;               
                 case Operations.Biconditional:           // True only when A value is equal to B value
-                   if (A == B)
-                       result = true;
+                   if (left == right)
+                       return true;
                    else
-                       result = false;
-                   break;
+                       return false;
+                default:
+                   throw new System.ArgumentException("Something went wrong ...... oh noes");
            }
-           return result;
         }
 
         /// <summary>
         /// int is the symbol
         /// </summary>
-        public int[] Requirements()
+        public List<int> Requirements()
         {
-            throw new System.NotImplementedException();
+            List<int> requirements = new List<int>();
+            if (IsAref())
+            {
+                requirements.AddRange(_ARef.Requirements());
+            }
+            else
+            {
+                requirements.Add(_A);
+            }
+            if (IsBref())
+            {
+                requirements.AddRange(_BRef.Requirements());
+            }
+            else
+            {
+                requirements.Add(_B);
+            }
+            return requirements;
         }
 
         

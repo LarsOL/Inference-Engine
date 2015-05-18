@@ -114,6 +114,14 @@ namespace UnitTests
             string[] teststring = { "~a|~B" };
             test.ParseProps(teststring);
         }
+        //[TestMethod]
+        public void NotInfrontOfBracket()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "~(a|~B)" };
+            Proposition[] tester = test.ParseProps(teststring);
+        }
 
     }
 }
