@@ -5,38 +5,96 @@ using InferenceEngine;
 namespace UnitTests
 {
     [TestClass]
+    
     public class TestPropositionInterpreter
     {
+        // NOTE: NOT A STRICT TEST YET, ONLY CHECKS TO SEE THE METHOD FINISHES, NOT THE CORRECT ANSWER.
         [TestMethod]
-        public void Basic3field_NoBrackets()
+        public void NoBrackets_B3feild()
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = {"a^b"};
+            string[] teststring = {"a&b"};
             test.ParseProps(teststring);
         }
         [TestMethod]
-        public void Basic4field_NoBrackets()
+        public void NoBrackets_4feild()
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "a^bvc" };
+            string[] teststring = { "a&b|c" };
             test.ParseProps(teststring);
         }
         [TestMethod]
-        public void Basic10field_NoBrackets()
+        public void NoBrackets_9feild()
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "a^bvc=>d&e^fvg&h^i" };
+            string[] teststring = { "a&b|c=>d&e|f&g&h|i" };
             test.ParseProps(teststring);
         }
         [TestMethod]
-        public void Basic10field_NoBrackets_DoubleSymbols()
+        public void NoBrackets_9feild_DoubleSymbols()
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "a^gvc=>d&c^fvg&b^c" };
+            string[] teststring = { "a|g&c<=>d&c|f&g|b|c" };
+            test.ParseProps(teststring);
+        }
+        [TestMethod]
+        public void Brackets_3feild()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "(a&b)|c" };
+            test.ParseProps(teststring);
+        }
+        [TestMethod]
+        public void Brackets_4feild()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "(a&b)|(c&d)" };
+            test.ParseProps(teststring);
+        }
+        [TestMethod]
+        public void Brackets_6feild_DoubleSymbols()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "(a&b)|(c|d)<=>(b&c)" };
+            test.ParseProps(teststring);
+        }
+        [TestMethod]
+        public void BracketsNested_5feild()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "((a|b)&(c|d))=>c" };
+            test.ParseProps(teststring);
+        }
+        [TestMethod]
+        public void BracketsNested_8feild()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "((a|b)&(c|d))=>((e|f)&(g|h))" };
+            test.ParseProps(teststring);
+        }
+        [TestMethod]
+        public void BracketsNested_8feild_DoubleSymbols()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "((a&h)|(c&d))=>((c|f)&(d|h))" };
+            test.ParseProps(teststring);
+        }
+        [TestMethod]
+        public void MultiProps_Complicatied()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "(a&b)|c", "a&b|c=>d&e|f&g&h|i","(a|b)&(c|d)=>(b|c)", "((a&b)|(c&d))=>((e&f)&(g|h))","((a&h)|(c&d))=>((c|f)&(d|h))"};
             test.ParseProps(teststring);
         }
 

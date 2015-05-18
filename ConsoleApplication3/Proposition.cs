@@ -8,25 +8,30 @@ namespace InferenceEngine
     public class Proposition
     {
         /// <summary>
-        /// unset int = -1
-        /// unset references = null
+        /// Proposition holds 3 items. The first is the reference
+        /// to the first value, second is the logical operation being
+        /// performed, third is the reference to the second value. NOT
+        /// is a toggled bool and hadled differenly to the other 
+        /// operations as it only effects one of the values.
+        /// 
+        /// default unset values
+        /// int = -1
+        /// references = null
+        /// bool = false
         /// </summary>
 
 
-        public Proposition(int LValue, string Operation, int RValue)
+
+//......Constructor.......................................................
+        public Proposition(int LValue, Operations Operation, int RValue)
         {
             // _A and _B reference the key of the variables we came across. In standard alphabet _A = 4 means the 'D' variable in the input proposition
             _A = LValue;
             _B = RValue;
 
-            setO(Operation);
+            _Operation = Operation;
         }
-        
-        /// <summary>
-        /// Overload for "NOT" proposition
-        /// </summary>
-        /// <param name="Operation"></param>
-        /// <param name="RValue"></param>
+        // Overload for "NOT" proposition
         public Proposition(string Operation, int RValue)
         {
             if (Operation != "!")
@@ -37,23 +42,25 @@ namespace InferenceEngine
                 _A = RValue;
                 _B = -1;
             }
-
         }
-        
-        /// <summary>
-        /// Basic defult constructor
-        /// </summary>
+        // Defult constructor
         public Proposition()
         {
-            _BRef = null;
-            _ARef = null;
-            _IsRoot = false;
             _A = -1;
+            ANotted = false;
+            _ARef = null;
+
             _B = -1;
+            BNotted = true;
+            _BRef = null;
+
+            _IsRoot = false;
+            _Operation = Operations.NotSet;
         }
 
         public bool _IsRoot { get; set; }
-
+//......A.................................................................
+        public bool ANotted { get; set; }
         private int _A;
         private Proposition _ARef;
         public void setA(int A)
@@ -66,7 +73,23 @@ namespace InferenceEngine
             _ARef = A;
             _A = -1;
         }
- 
+        public int getA()
+        {
+            return _A;
+        }
+        public Proposition getARef()
+        {
+            return _ARef;
+        }
+        public bool AisSymbol()
+        {
+            if (_A == -1)
+                return false;
+            else
+                return true;
+        }
+ //.....B.................................................................
+        public bool BNotted { get; set; }
         private int _B;
         private Proposition _BRef;
         public void setB(int B)
@@ -79,22 +102,35 @@ namespace InferenceEngine
             _BRef = B;
             _B = -1;
         }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public Operations _Operation;
+        public int getB()
+        {
+            return _B;
+        }
+        public Proposition getBRef()
+        {
+            return _BRef;
+        }
+        public bool BisSymbol()
+        {
+            if (_B == -1)
+                return false;
+            else
+                return true;
+        }
+//......Operation.........................................................
+        private Operations _Operation;
         public void setO(string O)
         {
             switch (O)
             {
                 case "!":
-                    throw new System.NotSupportedException(); // The NOT relationship shouldn't have 2 variables
+                    _Operation = Operations.Negation;     // NOT ... relationship shouldn't have 2 variables
+                    break;
                 case "&":
-                    _Operation = Operations.Conjunction;
+                    _Operation = Operations.Conjunction;  // AND
                     break;
                 case "|":
-                    _Operation = Operations.Disjunction;
+                    _Operation = Operations.Disjunction;  // OR
                     break;
                 case "=>":
                     _Operation = Operations.Implication;
@@ -104,35 +140,49 @@ namespace InferenceEngine
                     break;
             }
         }
-        
-
+        public Operations getO()
+        {
+            return _Operation;
+        }
+//......IsTrue............................................................
         public bool IsTrue(bool[] Arguements)
         {
-           bool result;
-           switch (_Operation)
-           {
-               case Operations.Negation:                // NOT
-                   result = !Arguements[_A];
-                   break;
-               case Operations.Conjunction:             // AND
-                   result = Arguements[_A] && Arguements[_B] ;
-                   break;
-               case Operations.Disjunction:             // OR
-                   result = Arguements[_A] || Arguements[_B];
-                   break;
-               case Operations.Implication:             // True when either A value = 0 or B value = 1, thus false when neither occur
-                   if ((Arguements[_A] == true) && (Arguements[_B] == false))
-                       result = false;
-                   else
-                       result = true;
-                   break;
-               case Operations.Biconditional:           // True only when A value is equal to B value
-                   if (Arguements[_A] == Arguements[_B])
-                       result = true;
-                   else
-                       result = false;
-                   break;
 
+            bool A = Arguements[_A];
+            bool B = Arguements[_B];
+            bool result = false;                         // Default false
+
+            // NOT
+            if (ANotted)
+                A = !A;
+            if (BNotted)
+                B = !B;
+
+            // Other Operations
+            switch (_Operation)
+            {
+                case Operations.NotSet:
+                    throw new System.NotSupportedException();
+                case Operations.Negation:                // NOT
+                    throw new System.NotSupportedException();
+                case Operations.Conjunction:             // AND
+                   result = A && B ;
+                   break;
+                case Operations.Disjunction:             // OR
+                   result = A || B;
+                   break;
+                case Operations.Implication:             // True when either A value = 0 or B value = 1, thus false when neither occur
+                   if ((A == true) && (B == false))
+                       result = false;
+                   else
+                       result = true;
+                   break;
+                case Operations.Biconditional:           // True only when A value is equal to B value
+                   if (A == B)
+                       result = true;
+                   else
+                       result = false;
+                   break;
            }
            return result;
         }
@@ -144,5 +194,7 @@ namespace InferenceEngine
         {
             throw new System.NotImplementedException();
         }
+
+        
     }
 }
