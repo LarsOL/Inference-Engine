@@ -19,7 +19,7 @@ namespace InferenceEngine
 
         public KnowledgeBase(InferenceEngine.Proposition[] Porpositions)
         {
-            _Propostions = Propositions;
+            _Propostions = Porpositions;
         }
 
         public bool IsTrue(int PropositionNo, bool[] Arguements)

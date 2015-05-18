@@ -10,31 +10,34 @@ namespace InferenceEngine
         private KnowledgeBase _KnowledgeBase;
         private Proposition _Goal;
 
-        public bool[] _Arguments
+        public bool[] Arguments { get; set; }
+        /*
+        public bool[] Arguments
         {
             get
             {
-                return _Arguments;
+                return Arguments;
             }
             set
             {
-                if (value.Length != _Arguments.Length)
-                    throw new System.ArgumentException("Wrong size arguments array");
-                _Arguments = value;
+              //  if (Arguments == null || value.Length != Arguments.Length)
+              //      throw new System.ArgumentException("Wrong size arguments array");
+                Arguments = value;
             }
-        }
+        } */
         public World(KnowledgeBase KnowledgeBase, Proposition Goal)
         {
             _KnowledgeBase = KnowledgeBase;
             _Goal = Goal;
         }
 
-        public World(Proposition[] Propositions)
+        public World(Proposition[] Propositions,int amount_args)
         {
             Proposition[] Temp = new Proposition[Propositions.Length -1];
             Array.Copy(Propositions, Temp, Temp.Length);
-            _KnowledgeBase = new KnowledgeBase(Propositions);
+            _KnowledgeBase = new KnowledgeBase(Temp);
             _Goal = Propositions[Propositions.Length - 1];
+            Arguments = new bool[amount_args];
         }
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace InferenceEngine
             int[] needed_ags;
             if(PropositionNo == -1)
             {
-                needed_ags = _Goal.Requirements();
+                needed_ags = _Goal.Requirements().ToArray();
             }
             else
             {
@@ -64,7 +67,7 @@ namespace InferenceEngine
             bool[] grab_ags = new bool[needed_ags.Length];
             for (int i = 0; i < needed_ags.Length; i++ )
             {
-                grab_ags[i] = _Arguments[needed_ags[i]];
+                grab_ags[i] = Arguments[needed_ags[i]];
             }
             if (PropositionNo == -1)
             {
@@ -83,17 +86,17 @@ namespace InferenceEngine
 
         public void SetArgument(bool argument, int symbol)
         {
-            if(symbol > _Arguments.Length-1 || symbol < 0) // out of bounds check
+            if(symbol > Arguments.Length-1 || symbol < 0) // out of bounds check
             {
-                _Arguments[symbol] = argument;
+                Arguments[symbol] = argument;
             }
         }
 
         public bool GetArgument(int symbol)
         {
-            if (symbol > _Arguments.Length - 1 || symbol < 0) // out of bounds check
+            if (symbol > Arguments.Length - 1 || symbol < 0) // out of bounds check
             {
-                return _Arguments[symbol];
+                return Arguments[symbol];
             }
             else
             {
