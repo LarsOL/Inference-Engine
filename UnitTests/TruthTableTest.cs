@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using InferenceEngine;
 
 namespace UnitTests
 {
@@ -62,7 +63,7 @@ namespace UnitTests
         public void TestMethod1()
         {
             
-            int a = 1 + 1;
+            
         }
     }
 }
