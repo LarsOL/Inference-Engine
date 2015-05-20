@@ -136,5 +136,46 @@ namespace InferenceEngine
 
             return answer;
         }
+
+       public int solve()
+       {
+           bool break_early = true; // debugging
+
+           // done  
+           bool? is_valid = true;
+           int NoVaild = 0;
+           bool?[] arguments = new bool?[_Model.Length];
+
+           for (int i = 0; i < (1 << _Model.Length); i++) // for each combination
+           {  // modifed from https://stackoverflow.com/questions/12488876/all-possible-combinations-of-boolean-variables
+               for (int j = 0; j < _Model.Length; j++) // set that combination of arguements
+               {
+                   arguments[j] = ((i & (1 << j)) != 0);
+               }
+
+               _ProblemSpace.Arguments = arguments; // set the world state
+
+               bool? Knowledge_true = true;
+
+               for (int j = 0; j < _ProblemSpace.NoPropositions(); j++) // check each proposition in the knowledge base 
+               {
+                   Knowledge_true = Knowledge_true & _ProblemSpace.IsTrue(j);
+               }
+               bool? goal_true = _ProblemSpace.IsTrue(-1);
+               if ((bool)(Knowledge_true & goal_true))
+               {
+                   NoVaild++;
+               }
+               is_valid = is_valid & !(Knowledge_true & !goal_true); // invalid when KB is true and goal is false
+               if ((!is_valid & break_early) == true)
+               { // problem already invalid, no need to continue
+                   System.Console.WriteLine("NO");
+                   return 0;
+               }               
+           }
+
+           System.Console.WriteLine("YES:" + NoVaild);
+           return NoVaild;
+       }
     }
 }

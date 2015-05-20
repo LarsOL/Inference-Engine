@@ -54,16 +54,20 @@ namespace UnitTests
         // public void MyTestInitialize() { }
         //
         // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
+        //  
         // public void MyTestCleanup() { }
         //
         #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void Full_Truth_Table_Run()
         {
-            
-            
+            FileInput input = new FileInput("./input.txt");
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            World MyWorld = new World(test.ParseProps(input.ReadFromFile()), temp.Length);
+            TruthTable solver = new TruthTable(temp, MyWorld);
+            solver.solve();            
         }
     }
 }
