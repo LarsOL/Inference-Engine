@@ -18,6 +18,14 @@ namespace UnitTests
             test.ParseProps(teststring);
         }
         [TestMethod]
+        public void Test_hornPriority()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "p1&b=>p2" };
+            Proposition[] result = test.ParseProps(teststring);
+        }
+        [TestMethod]
         public void NoBrackets_4feild()
         {
             Model temp = new Model();

@@ -27,18 +27,49 @@ namespace InferenceEngine
             for(int i = 0 ; i < Propositions.Length;i++)
             {
                 string[] splitted = SplitString(Propositions[i]);
-                if(splitted.Length == 1)
-                {
-                   result[i] = SetProp(splitted); // single arguement prop no need to parse
-                }
-                else
-                {
-                    result[i] = generateProp(splitted); //multi arguement prop
-                }
+                result[i] = fringecases(splitted);
+                
                
             }
             return result;
 
+        }
+
+        private Proposition fringecases(String[] Prop)
+        {
+            if (Prop.Length == 1)
+            {
+                return SetProp(Prop); // single arguement prop no need to parse
+            }
+            else
+            {
+                int inferCount = 0;
+                int inferPos =0;
+                for (int i = 0; i < Prop.Length; i++)
+                { 
+                    if(Prop[i].Contains("=>"))
+                    {
+                        inferCount++;
+                        inferPos = i;
+                    }
+                }
+                if(inferCount == 1)
+                {
+                    Proposition CurrentProp = new Proposition();
+                    string[] left = new string[inferPos]; //room for left of infer
+                    string[] right = new string[Prop.Length - left.Length - 1]; // room for what is left minus infer sign
+                    Array.Copy(Prop, 0, left, 0, left.Length); 
+                    Array.Copy(Prop, inferPos + 1, right, 0, right.Length);
+                    CurrentProp = SetProp(left, Operations.Implication, right);
+                    return CurrentProp;
+                }
+                else
+                {
+                    return generateProp(Prop); //multi arguement prop, everything bracketed properly
+                }
+                    
+
+            }
         }
 
         private void String2Symbols(string[] Proposition)
@@ -84,17 +115,6 @@ namespace InferenceEngine
         }
      
         
-        private List<int> NotsPosition(string[] PropositionString)
-        {
-            List<int> Position = new List<int>();
-            for(int i = 0; i < PropositionString.Length; i++)
-            {
-                if (PropositionString[i] == "~")
-                    Position.Add(i);
-            }
-            return Position;
-        }
-
         /// <summary>
         /// Wrapeper around setprop that accepts a single prop
         /// </summary>
