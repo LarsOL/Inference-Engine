@@ -10,7 +10,7 @@ namespace InferenceEngine
     {
         static void Main(string[] args)
         {
-            FileInput input = new FileInput("./input.txt");
+            FileInput input = new FileInput("./sillyness.txt");
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             string[] teststring = { "(a|(~a&b))&((e<=>f)=>b)", "f=>a" };

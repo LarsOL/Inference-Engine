@@ -134,7 +134,7 @@ namespace UnitTests
         [TestMethod]
         public void FileInputToPaserToWorld()
         {
-            FileInput input = new FileInput("./input.txt");
+            FileInput input = new FileInput("./t1.txt");
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             Proposition[] temper = test.ParseProps(input.ReadFromFile());

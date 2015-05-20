@@ -62,12 +62,23 @@ namespace UnitTests
         [TestMethod]
         public void Full_Truth_Table_Run()
         {
-            FileInput input = new FileInput("./input.txt");
+            FileInput input = new FileInput("./t1.txt");
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             World MyWorld = new World(test.ParseProps(input.ReadFromFile()), temp.Length);
             TruthTable solver = new TruthTable(temp, MyWorld);
-            solver.solve();            
+            Assert.AreEqual(solver.solve(), 3);        
+        }
+
+        [TestMethod]
+        public void Full_Truth_Table_fail()
+        {
+            FileInput input = new FileInput("./Semicomplicated_false.txt");
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            World MyWorld = new World(test.ParseProps(input.ReadFromFile()), temp.Length);
+            TruthTable solver = new TruthTable(temp, MyWorld);
+            Assert.AreEqual(solver.solve() , 0);
         }
     }
 }
