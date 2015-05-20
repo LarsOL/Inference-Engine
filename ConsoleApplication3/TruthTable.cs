@@ -40,7 +40,7 @@ namespace InferenceEngine
 
             for (int i = 0; i < _ProblemSpace.NoPropositions(); i++)
             {
-               System.Console.Write( "Prp " + i + "\t| ");
+               System.Console.Write( "Prp" + i + "\t| ");
             }
             System.Console.Write("KB\t| Goal\t| KB & Goal");
              System.Console.Write( System.Environment.NewLine);

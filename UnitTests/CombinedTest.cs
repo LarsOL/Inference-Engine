@@ -137,7 +137,8 @@ namespace UnitTests
             FileInput input = new FileInput("./input.txt");
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            World MyWorld = new World(test.ParseProps(input.ReadFromFile()), temp.Length);
+            Proposition[] temper = test.ParseProps(input.ReadFromFile());
+            World MyWorld = new World(temper, temp.Length);
         }
         
     }

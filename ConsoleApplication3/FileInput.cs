@@ -47,13 +47,13 @@ namespace InferenceEngine
                 String[] SplitTell = RemoveWhiteSpace(Tell).Split(';');
 
                 // adds the quiry to the end of the array
-                String[] result = AddToEnd(SplitTell, Ask);
-
+                //String[] result = AddToEnd(SplitTell, Ask);
+                SplitTell[SplitTell.Length - 1] =  Ask;
                 //close file reader stream to release file
                 reader.Close();
 
                 //returns the result 
-			    return result;
+                return SplitTell;
 		    }
             catch (FileNotFoundException ioEx)
             {
