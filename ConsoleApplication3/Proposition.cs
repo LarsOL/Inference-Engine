@@ -210,6 +210,19 @@ namespace InferenceEngine
             return requirements;
         }
 
+        public Proposition TryInfer(bool?[] Arguements)
+        {
+            if ((_ARef != null) && (_ARef.IsTrue(Arguements) == true))
+                if (_BRef != null)
+                    return _BRef;
+                else
+                    return _B;
+
+
+                ;
+            return null;
+        }
+
         
     }
 }

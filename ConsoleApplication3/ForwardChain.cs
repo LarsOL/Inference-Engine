@@ -14,7 +14,6 @@ namespace InferenceEngine
         {
             _Model = ProgramModel;
             _StartWorld = ProblemSpace;
-
             
         } 
         public void WorkShizznitOut()
