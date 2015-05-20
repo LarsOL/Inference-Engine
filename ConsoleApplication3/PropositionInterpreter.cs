@@ -27,7 +27,15 @@ namespace InferenceEngine
             for(int i = 0 ; i < Propositions.Length;i++)
             {
                 string[] splitted = SplitString(Propositions[i]);
-               result[i] = generateProp(splitted);
+                if(splitted.Length == 1)
+                {
+                   SetProp(splitted, Operations.Disjunction,splitted); // single arguement prop handle as (A||A)
+                }
+                else
+                {
+                    result[i] = generateProp(splitted); //multi arguement prop
+                }
+               
             }
             return result;
 
@@ -157,7 +165,7 @@ namespace InferenceEngine
             for(int i = 0 ; i < PropositionString.Length ; i++) //find high level brakets, srtring together prop left to right
             {
                 
-                if(PropositionString[i] == "(")
+                if(PropositionString[i].Contains("("))
                 {
                     
                     if(ParenthesisCount == 0) // found the start of a top level braket
@@ -166,11 +174,22 @@ namespace InferenceEngine
                         if(i > 0) // Dont go out of array bounds
                         {
                             try{ // see if there is a valid operation linker
-                            possible_linkers[0] = String2Operation(PropositionString[i-1]); 
+                            possible_linkers[0] = String2Operation(PropositionString[i-1]);
+                            if (possible_linkers[0] == Operations.Negation)
+                            {
+                                if (i > 1) 
+                                {
+                                    possible_linkers[0] = String2Operation(PropositionString[i - 2]);
+                                }
+                                else
+                                {
+                                    possible_linkers[0] = Operations.NotSet;
+                                }
+                            }
                             }
                             catch (System.ArgumentException)
                             {
-                                // not vaild skip
+                                throw new System.ArgumentException("An operation should always come before a opening bracket");
                             }
                         }                        
                     }
@@ -193,6 +212,14 @@ namespace InferenceEngine
                              return generateProp(stripbrackets);
                            
                         }
+
+                        if (Parenthesist_pos[0] == 1 && Parenthesist_pos[1] == PropositionString.Length - 1 && PropositionString[0] == "~")// brackets around whole thing but the not
+                        {
+                            string[] stripbrackets = new string[PropositionString.Length - 3];
+                            Array.Copy(PropositionString, 2, stripbrackets, 0, stripbrackets.Length);
+                            CurrentProp = generateProp(stripbrackets); //CHANGE TO INCLUDE THE NOTTING
+                            return CurrentProp;
+                        }
                        
                         if(i < PropositionString.Length - 1) // Dont go out of array bounds
                             {
@@ -201,7 +228,7 @@ namespace InferenceEngine
                                 }
                                 catch (System.ArgumentException)
                                 {
-                                    // not vaild skip
+                                    throw new System.ArgumentException("An operation should always come after a closing bracket");
                                 }
                             }
                         if (possible_linkers[0] == Operations.NotSet && possible_linkers[1] == Operations.NotSet)
@@ -216,6 +243,10 @@ namespace InferenceEngine
                             Array.Copy(PropositionString, Parenthesist_pos[0] + 1, left, 0, left.Length); // put what is in brakets in left
                             Array.Copy(PropositionString, Parenthesist_pos[1] + 2, right, 0, right.Length); // put what is left in right
                             CurrentProp = SetProp(left,possible_linkers[1],right);
+                            if (Parenthesist_pos[0] > 0 && PropositionString[Parenthesist_pos[0]][0] == '~')
+                            {
+                                CurrentProp.ANotted = true;
+                            }
                             return CurrentProp;
                         }
 
@@ -226,6 +257,10 @@ namespace InferenceEngine
                             Array.Copy(PropositionString, 0, left, 0, left.Length); // put what is in brakets in left
                             Array.Copy(PropositionString, Parenthesist_pos[0] + 1, right, 0, right.Length); // put what is left in right
                             CurrentProp = SetProp(left, possible_linkers[0], right);
+                            if (Parenthesist_pos[0] > 0 &&  PropositionString[Parenthesist_pos[0] -1 ][0] == '~')
+                            {
+                                CurrentProp.BNotted = true;
+                            }
                             return CurrentProp;
                         }
                         
