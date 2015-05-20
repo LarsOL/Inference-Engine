@@ -15,12 +15,12 @@ namespace InferenceEngine
             _ProblemSpace = ProblemSpace;
         }
 
-        private void prettycolours(bool agr)
+        private void prettycolours(bool? agr)
         {
-            if(agr){
+            if(agr==true){
                 Console.ForegroundColor = ConsoleColor.Green;
             }
-            else
+            else if(agr==false)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
             }
@@ -30,7 +30,7 @@ namespace InferenceEngine
 
         public void pretty_output()
         {
-           bool break_early = false; // debugging
+           bool? break_early = false; // debugging
            
             // make heading table
             for (int i = 0; i < _Model.Length; i++)
@@ -45,8 +45,8 @@ namespace InferenceEngine
             System.Console.Write("KB\t| Goal\t| KB & Goal");
              System.Console.Write( System.Environment.NewLine);
             // done  
-            bool is_valid = true;
-            bool[] arguments = new bool[_Model.Length];
+            bool? is_valid = true;
+            bool?[] arguments = new bool?[_Model.Length];
             for (int i = 0; i < (1 << _Model.Length); i++) // for each combination
             {  // modifed from https://stackoverflow.com/questions/12488876/all-possible-combinations-of-boolean-variables
                 for(int j = 0; j < _Model.Length; j++) // set that combination of arguements
@@ -58,23 +58,23 @@ namespace InferenceEngine
 
                 _ProblemSpace.Arguments = arguments; // set the world state
 
-                bool Knowledge_true = true;
+                bool? Knowledge_true = true;
                
                 for (int j = 0; j < _ProblemSpace.NoPropositions(); j++) // check each proposition in the knowledge base 
                 {
                     prettycolours(_ProblemSpace.IsTrue(j));
                     System.Console.Write("\t| "); 
-                    Knowledge_true = Knowledge_true && _ProblemSpace.IsTrue(j);
+                    Knowledge_true = Knowledge_true & _ProblemSpace.IsTrue(j);
 
                 }
                 prettycolours(Knowledge_true);
                 System.Console.Write("\t| "); // is KB true in this world
-                bool goal_true = _ProblemSpace.IsTrue(-1);
+                bool? goal_true = _ProblemSpace.IsTrue(-1);
                 prettycolours(goal_true);
                 System.Console.Write("\t| ");//goal proposition
-                prettycolours(Knowledge_true && goal_true); //Does both goal and KB hold
-                is_valid = is_valid && !(Knowledge_true && !goal_true); // invalid when KB is true and goal is false
-                if (!is_valid && break_early) { // problem already invalid, no need to continue
+                prettycolours(Knowledge_true & goal_true); //Does both goal and KB hold
+                is_valid = is_valid & !(Knowledge_true & !goal_true); // invalid when KB is true and goal is false
+                if ((!is_valid & break_early)==true) { // problem already invalid, no need to continue
                     return;
                 }
                 // does goal and knowgelde base hold for this world?
@@ -103,8 +103,8 @@ namespace InferenceEngine
             answer += "KB\t| Goal\t| KB & Goal";
             answer += System.Environment.NewLine;
             // done  
-            bool is_valid = true;
-            bool[] arguments = new bool[_Model.Length];
+            bool? is_valid = true;
+            bool?[] arguments = new bool?[_Model.Length];
             for (int i = 0; i < (1 << _Model.Length); i++) // for each combination
             {  // modifed from https://stackoverflow.com/questions/12488876/all-possible-combinations-of-boolean-variables
                 for(int j = 0; j < _Model.Length; j++) // set that combination of arguements
@@ -115,20 +115,19 @@ namespace InferenceEngine
 
                 _ProblemSpace.Arguments = arguments; // set the world state
 
-                bool Knowledge_true = true;
+                bool? Knowledge_true = true;
                
                 for (int j = 0; j < _ProblemSpace.NoPropositions(); j++) // check each proposition in the knowledge base 
                 {
                     answer += _ProblemSpace.IsTrue(j) + "\t| " ;
-                    Knowledge_true = Knowledge_true && _ProblemSpace.IsTrue(j);
-
+                    Knowledge_true = Knowledge_true & _ProblemSpace.IsTrue(j);
                 }
                 answer += Knowledge_true + "\t| ";  // is KB true in this world
-                bool goal_true = _ProblemSpace.IsTrue(-1);
+                bool? goal_true = _ProblemSpace.IsTrue(-1);
                 answer += goal_true + "\t| "; //goal proposition
-                answer += Knowledge_true && goal_true; //Does both goal and KB hold
-                is_valid = is_valid && !(Knowledge_true && !goal_true); // invalid when KB is true and goal is false
-                if (!is_valid && break_early) { // problem already invalid, no need to continue
+                answer += Knowledge_true & goal_true; //Does both goal and KB hold
+                is_valid = is_valid & !(Knowledge_true & !goal_true); // invalid when KB is true and goal is false
+                if ((!is_valid & break_early)== true) { // problem already invalid, no need to continue
                     return answer;
                 }
                 // does goal and knowgelde base hold for this world?

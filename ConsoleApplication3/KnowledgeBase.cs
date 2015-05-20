@@ -22,7 +22,7 @@ namespace InferenceEngine
             _Propostions = Porpositions;
         }
 
-        public bool IsTrue(int PropositionNo, bool[] Arguements)
+        public bool? IsTrue(int PropositionNo, bool?[] Arguements)
         {
             return _Propostions[PropositionNo].IsTrue(Arguements);
         }

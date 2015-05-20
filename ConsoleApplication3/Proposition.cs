@@ -121,14 +121,14 @@ namespace InferenceEngine
         public Operations Operation { get; set; }
         
 //......IsTrue............................................................
-        public bool IsTrue(bool[] Arguements)
+        public bool? IsTrue(bool?[] Arguements)
         {
-            bool left, right;
+            bool? left, right;
             int leftSize = 1;
             if (IsAref())
             {
                 leftSize = _ARef.Requirements().Count;
-                bool[] leftarr = new bool[leftSize];
+                bool?[] leftarr = new bool?[leftSize];
                 Array.Copy(Arguements, 0, leftarr,0, leftarr.Length);
                 left = _ARef.IsTrue(leftarr);
             }
@@ -137,7 +137,7 @@ namespace InferenceEngine
                 left = Arguements[0];
             }
 
-            bool[] rightarr = new bool[Arguements.Length - leftSize];
+            bool?[] rightarr = new bool?[Arguements.Length - leftSize];
             Array.Copy(Arguements, leftSize, rightarr, 0, rightarr.Length);
             if (IsBref())
             {
@@ -162,9 +162,9 @@ namespace InferenceEngine
                 case Operations.Negation:                // NOT
                     throw new System.NotSupportedException();
                 case Operations.Conjunction:             // AND
-                   return left && right ;
+                   return left & right ;
                 case Operations.Disjunction:             // OR
-                   return left || right;
+                   return left | right;
                 case Operations.Implication:             // True when either A value = 0 or B value = 1, thus false when neither occur
                    if ((left == true) && (right == false))
                        return false;

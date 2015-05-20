@@ -10,7 +10,7 @@ namespace InferenceEngine
         private KnowledgeBase _KnowledgeBase;
         private Proposition _Goal;
 
-        public bool[] Arguments { get; set; }
+        public bool?[] Arguments { get; set; }
         /*
         public bool[] Arguments
         {
@@ -37,7 +37,7 @@ namespace InferenceEngine
             Array.Copy(Propositions, Temp, Temp.Length);
             _KnowledgeBase = new KnowledgeBase(Temp);
             _Goal = Propositions[Propositions.Length - 1];
-            Arguments = new bool[amount_args];
+            Arguments = new bool?[amount_args];
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace InferenceEngine
         /// Check if (PropostionNo) is true in this world state
         /// -1 is goal check
         /// </summary>
-        public bool IsTrue(int PropositionNo)
+        public bool? IsTrue(int PropositionNo)
         {
             int[] needed_ags;
             if(PropositionNo == -1)
@@ -64,7 +64,7 @@ namespace InferenceEngine
                 needed_ags = _KnowledgeBase.Requirements(PropositionNo);
             }
                
-            bool[] grab_ags = new bool[needed_ags.Length];
+            bool?[] grab_ags = new bool?[needed_ags.Length];
             for (int i = 0; i < needed_ags.Length; i++ )
             {
                 grab_ags[i] = Arguments[needed_ags[i]];
@@ -92,7 +92,7 @@ namespace InferenceEngine
             }
         }
 
-        public bool GetArgument(int symbol)
+        public bool? GetArgument(int symbol)
         {
             if (symbol > Arguments.Length - 1 || symbol < 0) // out of bounds check
             {

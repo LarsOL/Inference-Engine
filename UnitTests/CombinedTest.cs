@@ -78,7 +78,7 @@ namespace UnitTests
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             string[] teststring = { "a&b" };
             Proposition[] tester = test.ParseProps(teststring);
-            bool ans = tester[0].IsTrue(new[] {true,false});
+            bool? ans = tester[0].IsTrue(new bool?[] {true,false});
             Assert.AreEqual(ans, false);
         }
         [TestMethod]
@@ -100,7 +100,7 @@ namespace UnitTests
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             string[] teststring = { "a|(b&~a)" };
             Proposition[] tester = test.ParseProps(teststring);
-            bool ans = tester[0].IsTrue(new[] { true, false ,true});
+            bool? ans = tester[0].IsTrue(new bool?[] { true, false, true });
             Assert.AreEqual(ans, true);
         }
          [TestMethod]
@@ -122,11 +122,11 @@ namespace UnitTests
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             string[] teststring = { "(a|(~a&d))&((e<=>f)=>d)" };
             Proposition[] tester = test.ParseProps(teststring);
-            bool ans = tester[0].IsTrue(new[] { false, false,true,false,true,true });
+            bool? ans = tester[0].IsTrue(new bool?[] { false, false,true,false,true,true });
             Assert.AreEqual(ans, true);
-            ans = tester[0].IsTrue(new[] { false, false, false, false, true, false });
+            ans = tester[0].IsTrue(new bool?[] { false, false, false, false, true, false });
             Assert.AreEqual(ans, false);
-            ans = tester[0].IsTrue(new[] { true, true, false, true, true, false });
+            ans = tester[0].IsTrue(new bool?[] { true, true, false, true, true, false });
             Assert.AreEqual(ans, false);
         }
     }

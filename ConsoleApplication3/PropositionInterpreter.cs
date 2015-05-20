@@ -168,7 +168,7 @@ namespace InferenceEngine
                             try{ // see if there is a valid operation linker
                             possible_linkers[0] = String2Operation(PropositionString[i-1]); 
                             }
-                            catch (System.ArgumentException e)
+                            catch (System.ArgumentException)
                             {
                                 // not vaild skip
                             }
@@ -199,7 +199,7 @@ namespace InferenceEngine
                                 try{ // see if there is a valid operation linker
                                 possible_linkers[1] = String2Operation(PropositionString[i+1]); 
                                 }
-                                catch (System.ArgumentException e)
+                                catch (System.ArgumentException)
                                 {
                                     // not vaild skip
                                 }
