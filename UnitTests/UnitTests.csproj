@@ -54,7 +54,7 @@
     <Compile Include="TruthTableTest.cs" />
     <Compile Include="WorldTest.cs" />
     <Compile Include="CombinedTest.cs" />
-    <Compile Include="TestProposition.cs" />
+    <Compile Include="PropositionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileTests.cs" />
   </ItemGroup>

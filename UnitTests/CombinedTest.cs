@@ -131,5 +131,17 @@ namespace UnitTests
             ans = tester[0].IsTrue(new bool?[] { true, true, false, true, true, null });
             Assert.AreEqual(ans, null);
         }
+
+
+        [TestMethod]
+        public void FileInputToPaserToWorld()
+        {
+            FileInput input = new FileInput("./input.txt");
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            Proposition[] temper = test.ParseProps(input.ReadFromFile());
+            World MyWorld = new World(temper, temp.Length);
+        }
+        
     }
 }

@@ -47,6 +47,13 @@ namespace InferenceEngine
         }
 
         public bool _IsRoot { get; set; }
+        public bool Single
+        {
+            get
+            {
+                return (_B == -1 && _BRef == null);
+            }
+        }
 //......A.................................................................
         public bool ANotted { get; set; }
         private int _A;
@@ -123,7 +130,7 @@ namespace InferenceEngine
 //......IsTrue............................................................
         public bool? IsTrue(bool?[] Arguements)
         {
-            bool? left, right;
+            bool? left, right =false;
             int leftSize = 1;
             if (IsAref())
             {
@@ -137,20 +144,27 @@ namespace InferenceEngine
                 left = Arguements[0];
             }
 
-            bool?[] rightarr = new bool?[Arguements.Length - leftSize];
-            Array.Copy(Arguements, leftSize, rightarr, 0, rightarr.Length);
-            if (IsBref())
+            if (!Single)
             {
-                right = _BRef.IsTrue(rightarr);
-            }
-            else
-            {
-                right = rightarr[0];
+                bool?[] rightarr = new bool?[Arguements.Length - leftSize];
+                Array.Copy(Arguements, leftSize, rightarr, 0, rightarr.Length);
+                if (IsBref())
+                {
+                    right = _BRef.IsTrue(rightarr);
+                }
+                else
+                {
+                    right = rightarr[0];
+                }
             }
              
             // NOT
             if (ANotted)
                 left = !left;
+
+            if (Single)
+                return left; 
+
             if (BNotted)
                 right = !right;
 
@@ -199,13 +213,16 @@ namespace InferenceEngine
             {
                 requirements.Add(_A);
             }
-            if (IsBref())
+            if (!Single)
             {
-                requirements.AddRange(_BRef.Requirements());
-            }
-            else
-            {
-                requirements.Add(_B);
+                if (IsBref())
+                {
+                    requirements.AddRange(_BRef.Requirements());
+                }
+                else
+                {
+                    requirements.Add(_B);
+                }
             }
             return requirements;
         }

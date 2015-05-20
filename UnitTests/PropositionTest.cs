@@ -5,7 +5,7 @@ using InferenceEngine;
 namespace UnitTests
 {
     [TestClass]
-    public class TestProposition
+    public class PropositionTest
     {
         [TestMethod]
         public void testIntConstruction()
@@ -52,6 +52,14 @@ namespace UnitTests
         public void testIsTrueNot()
         {
             //IMPLEMENT!
+        }
+
+        [TestMethod]
+        public void Single_flag()
+        {
+            Proposition temp = new Proposition();
+            temp.setA(0);
+            Assert.AreEqual(temp.Single, true);
         }
         
         [TestMethod]

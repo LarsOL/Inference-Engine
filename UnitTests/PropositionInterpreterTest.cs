@@ -95,7 +95,7 @@ namespace UnitTests
         {
             Model temp = new Model();
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
-            string[] teststring = { "(a&b)|c", "a&b|c=>d&e|f&g&h|i","(a|b)&(c|d)=>(b|c)", "((a&b)|(c&d))=>((e&f)&(g|h))","((a&h)|(c&d))=>((c|f)&(d|h))"};
+            string[] teststring = { "(a&b)|c", "a&b|c=>d&e|f&g&h|i", "(a|b)&(c|d)=>(b|c)", "((a&b)|(c&d))=>((e&f)&(g|h))", "((a&h)|(c&d))=>((c|f)&(d|h))", "~(a|~B)" };
             test.ParseProps(teststring);
         }
         [TestMethod]
@@ -114,7 +114,7 @@ namespace UnitTests
             string[] teststring = { "~a|~B" };
             test.ParseProps(teststring);
         }
-        //[TestMethod]
+        [TestMethod]
         public void NotInfrontOfBracket()
         {
             Model temp = new Model();
