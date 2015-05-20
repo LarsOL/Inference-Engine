@@ -168,10 +168,15 @@ namespace InferenceEngine
                 case Operations.Implication:             // True when either A value = 0 or B value = 1, thus false when neither occur
                    if ((left == true) && (right == false))
                        return false;
+                   else if ((!left|right)== true)
+                       return true;
                    else
-                       return true;               
+                       return null;
+
                 case Operations.Biconditional:           // True only when A value is equal to B value
-                   if (left == right)
+                   if ((left == null) || (right == null))
+                       return null;
+                   else if (left == right)
                        return true;
                    else
                        return false;

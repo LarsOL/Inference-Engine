@@ -128,6 +128,8 @@ namespace UnitTests
             Assert.AreEqual(ans, false);
             ans = tester[0].IsTrue(new bool?[] { true, true, false, true, true, false });
             Assert.AreEqual(ans, false);
+            ans = tester[0].IsTrue(new bool?[] { true, true, false, true, true, null });
+            Assert.AreEqual(ans, null);
         }
     }
 }

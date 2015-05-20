@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileInput.cs" />
+    <Compile Include="ForwardChain.cs" />
     <Compile Include="KnowledgeBase.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Operations.cs" />
