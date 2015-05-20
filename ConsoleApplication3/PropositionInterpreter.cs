@@ -279,7 +279,7 @@ namespace InferenceEngine
                     }
                     
                     if(ParenthesisCount < 0)
-                        throw new System.ArgumentException("Miss matched Parenthesis in Propostion");
+                        throw new System.ArgumentException("Too many closing brackets in Prop");
                     
                 }
                 if(i == PropositionString.Length - 1 && ParenthesisCount != 0)
