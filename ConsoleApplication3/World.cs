@@ -111,10 +111,9 @@ namespace InferenceEngine
 
         public void SetArgument(bool argument, int symbol)
         {
-            if(symbol < Arguments.Length-1 || symbol > 0) // out of bounds check
-            {
+
                 Arguments[symbol] = argument;
-            }
+
         }
 
         public bool? GetArgument(int symbol)

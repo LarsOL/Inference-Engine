@@ -16,12 +16,13 @@ namespace InferenceEngine
             _StartWorld = ProblemSpace;
             
         } 
-        public void WorkShizznitOut()
+        public bool? WorkShizznitOut()
         {
             bool?[] arguments = new bool?[_Model.Length];
             _StartWorld.Arguments = arguments;
             _StartWorld.FindPrimarys();
             bool Stuck = false;
+            string path = "";
             while ((_StartWorld.IsTrue(-1) == null) && (!Stuck))
             {
                 Stuck = true;
@@ -31,12 +32,27 @@ namespace InferenceEngine
                     if ((temp = _StartWorld.TryInfer(i)) != null)
                     {
                         _StartWorld.AddToKB(temp);
+                        //path += _Model.GetName(temp.getA()) +", ";
                         _StartWorld.FindPrimarys();
                         Stuck = false;
                     }
                 }
             }
-            return;
+            if((_StartWorld.IsTrue(-1)==true))
+            {
+                System.Console.Write("YES: ");
+                for (int i = 0; i < _StartWorld.Arguments.Length;i++ )
+                {
+                    if (_StartWorld.Arguments[i] == true)
+                    {
+                        path += _Model.GetName(i) + ", ";
+
+                    }
+                }
+                System.Console.Write(path);
+            
+            }
+            return (_StartWorld.IsTrue(-1));
         }
     }
 }

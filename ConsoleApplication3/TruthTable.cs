@@ -157,7 +157,7 @@ namespace InferenceEngine
 
                bool? Knowledge_true = true;
 
-               for (int j = 0; j < _ProblemSpace.NoPropositions(); j++) // check each proposition in the knowledge base 
+               for (int j = 0; j < _ProblemSpace.Length; j++) // check each proposition in the knowledge base 
                {
                    Knowledge_true = Knowledge_true & _ProblemSpace.IsTrue(j);
                }

@@ -229,6 +229,10 @@ namespace InferenceEngine
 
         public Proposition TryInfer(bool?[] Arguements)
         {
+            if(this.Single)
+            {
+                return null;
+            }
             Proposition CurrentProp = new Proposition();
             if ((_ARef != null) && (_ARef.IsTrue(Arguements) == true))
             {
@@ -236,13 +240,24 @@ namespace InferenceEngine
                 {
                     return _BRef;
                 }
+                else
+                {
+                    CurrentProp.setA(_B);
+                    return CurrentProp;
+                }
             }
-            else
-            {
-                CurrentProp.setA(_B);
-                return CurrentProp;
+            else if(Arguements[0] == true && _ARef == null)
+            { 
+                if (_BRef != null)
+                {
+                    return _BRef;
+                }
+                else 
+                {
+                    CurrentProp.setA(_B);
+                    return CurrentProp;
+                }
             }
-            
             return null;
         }
     }
