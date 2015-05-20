@@ -236,12 +236,13 @@ namespace InferenceEngine
                 {
                     return _BRef;
                 }
-                else
-                {
-                    CurrentProp.setA(_B);
-                    return CurrentProp;
-                }
             }
+            else
+            {
+                CurrentProp.setA(_B);
+                return CurrentProp;
+            }
+            
             return null;
         }
     }

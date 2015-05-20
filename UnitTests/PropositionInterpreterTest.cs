@@ -122,6 +122,13 @@ namespace UnitTests
             string[] teststring = { "~(a|~B)" };
             Proposition[] tester = test.ParseProps(teststring);
         }
-
+        [TestMethod]
+        public void HornTest()
+        {
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            string[] teststring = { "b&e => f" };
+            Proposition[] tester = test.ParseProps(teststring);
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace InferenceEngine
         private KnowledgeBase _KnowledgeBase;
         private Proposition _Goal;
 
+
         public bool?[] Arguments { get; set; }
         /*
         public bool[] Arguments
@@ -79,14 +80,38 @@ namespace InferenceEngine
             }
         }
 
-        public int NoPropositions()
+        public Proposition TryInfer(int PropositionNo)
         {
-            return _KnowledgeBase.Length;
+            int[] needed_ags;
+            needed_ags = _KnowledgeBase.Requirements(PropositionNo);
+            bool?[] grab_ags = new bool?[needed_ags.Length];
+            for (int i = 0; i < needed_ags.Length; i++)
+            {
+                grab_ags[i] = Arguments[needed_ags[i]];
+            }
+            return _KnowledgeBase.TryInfer(PropositionNo, grab_ags);
+
+        }
+
+        public void FindPrimarys()
+        {
+            for (int i = 0; i < _KnowledgeBase.Length; i++)
+            {
+                if (_KnowledgeBase.Propostions[i].Single)
+                {
+                    SetArgument(true,_KnowledgeBase.Propostions[i].getA());
+                }
+            }
+        }
+
+        public int Length
+        {
+            get { return _KnowledgeBase.Length; }
         }
 
         public void SetArgument(bool argument, int symbol)
         {
-            if(symbol > Arguments.Length-1 || symbol < 0) // out of bounds check
+            if(symbol < Arguments.Length-1 || symbol > 0) // out of bounds check
             {
                 Arguments[symbol] = argument;
             }
@@ -102,6 +127,11 @@ namespace InferenceEngine
             {
                 throw new System.ArgumentException("Invalid symbol (out of bounds)");
             }
+        }
+
+        public void AddToKB(Proposition PTemp)
+        {
+            _KnowledgeBase.AddToKB(PTemp);
         }
 
     }

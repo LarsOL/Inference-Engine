@@ -38,7 +38,7 @@ namespace InferenceEngine
                 System.Console.Write(_Model.GetName(i) + "\t| ");
             }
 
-            for (int i = 0; i < _ProblemSpace.NoPropositions(); i++)
+            for (int i = 0; i < _ProblemSpace.Length; i++)
             {
                System.Console.Write( "Prp" + i + "\t| ");
             }
@@ -60,7 +60,7 @@ namespace InferenceEngine
 
                 bool? Knowledge_true = true;
                
-                for (int j = 0; j < _ProblemSpace.NoPropositions(); j++) // check each proposition in the knowledge base 
+                for (int j = 0; j < _ProblemSpace.Length; j++) // check each proposition in the knowledge base 
                 {
                     prettycolours(_ProblemSpace.IsTrue(j));
                     System.Console.Write("\t| "); 
@@ -96,7 +96,7 @@ namespace InferenceEngine
                 answer += _Model.GetName(i) + "\t| ";
             }
 
-            for (int i = 0; i < _ProblemSpace.NoPropositions(); i++)
+            for (int i = 0; i < _ProblemSpace.Length; i++)
             {
                 answer += "Prp " + i + "\t| ";
             }
@@ -117,7 +117,7 @@ namespace InferenceEngine
 
                 bool? Knowledge_true = true;
                
-                for (int j = 0; j < _ProblemSpace.NoPropositions(); j++) // check each proposition in the knowledge base 
+                for (int j = 0; j < _ProblemSpace.Length; j++) // check each proposition in the knowledge base 
                 {
                     answer += _ProblemSpace.IsTrue(j) + "\t| " ;
                     Knowledge_true = Knowledge_true & _ProblemSpace.IsTrue(j);
