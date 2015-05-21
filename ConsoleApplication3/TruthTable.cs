@@ -169,7 +169,7 @@ namespace InferenceEngine
                is_valid = is_valid & !(Knowledge_true & !goal_true); // invalid when KB is true and goal is false
                if ((!is_valid & break_early) == true)
                { // problem already invalid, no need to continue
-                   System.Console.WriteLine("NO");
+                   System.Console.Write("NO");
                    return 0;
                }               
            }
