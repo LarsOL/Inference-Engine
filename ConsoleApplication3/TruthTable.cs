@@ -174,7 +174,7 @@ namespace InferenceEngine
                }               
            }
 
-           System.Console.WriteLine("YES:" + NoVaild);
+           System.Console.Write("YES: " + NoVaild);
            return NoVaild;
        }
     }

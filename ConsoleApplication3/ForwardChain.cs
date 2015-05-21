@@ -45,12 +45,20 @@ namespace InferenceEngine
                 {
                     if (_StartWorld.Arguments[i] == true)
                     {
-                        path += _Model.GetName(i) + ", ";
+                        if(i != 0)
+                        {
+                            path += ", ";
+                        }
+                        path += _Model.GetName(i);
 
                     }
                 }
                 System.Console.Write(path);
             
+            }
+            else
+            {
+                System.Console.Write("NO");
             }
             return (_StartWorld.IsTrue(-1));
         }
