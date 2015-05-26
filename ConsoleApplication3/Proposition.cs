@@ -260,5 +260,43 @@ namespace InferenceEngine
             }
             return null;
         }
+
+//
+        public List<int> BackwardSearch(int Current)
+        {
+            List<int> result;
+            if(isOriginal(Current))
+            {
+                result = new List<int>();
+                result.Add(Current);
+                return result;
+            }
+            else
+            {
+                foreach(Proposition Prop in PropArry)
+                {
+                    if(Prop._B == Current)
+                    {
+                        if(Prop._ARef != null)
+                        {
+                            result = BackwardSearch(Prop._ARef);
+                            result.Add(Prop._B);
+                            return result;
+                        }
+                        else
+                        {
+                            result = BackwardSearch(Prop._A);
+                            result.Add(Prop._B);
+                            return result;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        public List<int> BackwardSearch(Proposition Current)
+        {
+            
+        }
     }
 }

@@ -10,21 +10,21 @@
   <Class Name="InferenceEngine.Proposition">
     <Position X="2.25" Y="1.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>CQAEEAAAAAAAiAyAABIAAAAAAAIAAAAAAQGAAQgAACA=</HashCode>
+      <HashCode>CQAEEAAAAAAAiAyAABIAAACAAAIAAAAAAQGAAQgQACA=</HashCode>
       <FileName>Proposition.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="InferenceEngine.KnowledgeBase">
     <Position X="4.5" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAgAAAAAAABAAAIAAAAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAABBgAIAAAAQAAAAAAAQAAA=</HashCode>
       <FileName>KnowledgeBase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="InferenceEngine.World">
     <Position X="6.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAIAIAAAAAAAgAAAAAAAAAAgAAAQAAIAEAAAAAAAA=</HashCode>
+      <HashCode>AAAAIAIAAAAAAAgAEAAAAABBAgAAAAAAIAEAAAAQAAA=</HashCode>
       <FileName>World.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -38,14 +38,14 @@
   <Class Name="InferenceEngine.PropositionInterpreter">
     <Position X="6.25" Y="1.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>CACBAAAAAAAAIAACAEAAAABCAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <HashCode>CAChAAAAAAAAIAACAAAAAABCAAAAAAAAAAAAAAAAAIA=</HashCode>
       <FileName>PropositionInterpreter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="InferenceEngine.TruthTable">
     <Position X="0.5" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAEAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAIg=</HashCode>
+      <HashCode>AAIAAAAEAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAIg=</HashCode>
       <FileName>TruthTable.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -57,10 +57,17 @@
     </TypeIdentifier>
   </Class>
   <Class Name="InferenceEngine.ForwardChain">
-    <Position X="8.5" Y="5.5" Width="1.5" />
+    <Position X="10.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAIA=</HashCode>
       <FileName>ForwardChain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InferenceEngine.BackwardChain">
+    <Position X="10.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BackwardChain.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="InferenceEngine.Operations">
