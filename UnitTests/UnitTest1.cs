@@ -18,5 +18,27 @@ namespace UnitTests
             solver.WorkShizznitOut();
 
         }
+        [TestMethod]
+        public void BackwardChainT1()
+        {
+            FileInput input = new FileInput("./t1.txt");
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            World MyWorld = new World(test.ParseProps(input.ReadFromFile()), temp.Length);
+            BackwardsChain solver = new BackwardsChain(temp, MyWorld);
+            solver.WorkShiznitOut();
+        }
+
+        [TestMethod]
+        public void BackwardChainAndImp()
+        {
+            FileInput input = new FileInput("./t2.txt");
+            Model temp = new Model();
+            PropositionInterpreter test = new PropositionInterpreter(ref temp);
+            World MyWorld = new World(test.ParseProps(input.ReadFromFile()), temp.Length);
+            BackwardsChain solver = new BackwardsChain(temp, MyWorld);
+            solver.WorkShiznitOut();
+        }
+
     }
 }

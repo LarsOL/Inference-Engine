@@ -15,7 +15,7 @@ namespace InferenceEngine
             {
                 if (debugging)// debugging overide REMOVE
                 {
-                    args = new[] { "FC", "./t1.txt" };
+                    args = new[] { "TT", "./t2.txt" };
                 }
 
                 if (args.Length != 2)
@@ -39,7 +39,8 @@ namespace InferenceEngine
                         forwardsolver.WorkShizznitOut();
                         break;
                     case "BC":
-
+                        BackwardsChain backwardsolver = new BackwardsChain(temp, MyWorld);
+                        backwardsolver.WorkShiznitOut();
                         break;
                     default:
                         throw new System.ArgumentException("Invaild method. Usage: Program.exe <method> <file path>");

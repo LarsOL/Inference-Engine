@@ -7,8 +7,8 @@ namespace InferenceEngine
 {
     public class World
     {
-        private KnowledgeBase _KnowledgeBase;
-        private Proposition _Goal;
+        public KnowledgeBase _KnowledgeBase;
+        public Proposition _Goal;
 
 
         public bool?[] Arguments { get; set; }
