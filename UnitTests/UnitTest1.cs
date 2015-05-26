@@ -15,7 +15,7 @@ namespace UnitTests
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             World MyWorld = new World(test.ParseProps(input.ReadFromFile()), temp.Length);
             ForwardChain solver = new ForwardChain(temp, MyWorld);
-            solver.WorkShizznitOut();
+            solver.Start();
 
         }
         [TestMethod]
@@ -26,7 +26,7 @@ namespace UnitTests
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             World MyWorld = new World(test.ParseProps(input.ReadFromFile()), temp.Length);
             BackwardsChain solver = new BackwardsChain(temp, MyWorld);
-            solver.WorkShiznitOut();
+            solver.Start();
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@ namespace UnitTests
             PropositionInterpreter test = new PropositionInterpreter(ref temp);
             World MyWorld = new World(test.ParseProps(input.ReadFromFile()), temp.Length);
             BackwardsChain solver = new BackwardsChain(temp, MyWorld);
-            solver.WorkShiznitOut();
+            solver.Start();
         }
 
     }

@@ -36,11 +36,11 @@ namespace InferenceEngine
                         break;
                     case "FC":
                         ForwardChain forwardsolver = new ForwardChain(temp, MyWorld);
-                        forwardsolver.WorkShizznitOut();
+                        forwardsolver.Start();
                         break;
                     case "BC":
                         BackwardsChain backwardsolver = new BackwardsChain(temp, MyWorld);
-                        backwardsolver.WorkShiznitOut();
+                        backwardsolver.Start();
                         break;
                     default:
                         throw new System.ArgumentException("Invaild method. Usage: Program.exe <method> <file path>");

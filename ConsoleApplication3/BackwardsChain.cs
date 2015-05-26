@@ -20,14 +20,14 @@ namespace InferenceEngine
         /// <summary>
         /// Control function that takes the result and prints it out
         /// </summary>
-        public void WorkShiznitOut()
+        public void Start()
         {
             if (IsOriginal(_StartWorld._Goal))
             {
                 //work is done fool
             }
 
-            List<int> result = ShiznitOfDoom(_StartWorld._Goal);
+            List<int> result = Chain(_StartWorld._Goal);
             if(result.Count()==0)
             {
                 Console.WriteLine("No Path Found");
@@ -48,7 +48,7 @@ namespace InferenceEngine
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public List<int> ShiznitOfDoom(Proposition value)
+        public List<int> Chain(Proposition value)
         {
             List<int> result = new List<int>();
            
@@ -66,7 +66,7 @@ namespace InferenceEngine
                 {
                     foreach (Proposition Refered in temp)
                     {
-                        result = ShiznitOfDoom(Refered);
+                        result = Chain(Refered);
                         if (result.Count != 0)
                         {
                             result.Add(Refered.getB());
@@ -83,7 +83,7 @@ namespace InferenceEngine
             {
                 if(value.IsAref())
                 {
-                    result = ShiznitOfDoom(value.getARef());
+                    result = Chain(value.getARef());
                 }
                 else if (IsOriginal(value.getA()))
                 {
@@ -95,7 +95,7 @@ namespace InferenceEngine
                     {
                         foreach (Proposition Refered in temp)
                         {
-                            result = ShiznitOfDoom(Refered);
+                            result = Chain(Refered);
                             if (result.Count != 0)
                             {
                                 result.Add(Refered.getB());
@@ -118,7 +118,7 @@ namespace InferenceEngine
                 // if a ref
                 if(value.IsAref())
                 {
-                    MiniListA = ShiznitOfDoom(value.getARef());
+                    MiniListA = Chain(value.getARef());
                 }
                 // If A is a Singular Original
                 else if (IsOriginal(value.getA()))
@@ -132,7 +132,7 @@ namespace InferenceEngine
                     {
                         foreach (Proposition Refered in temp)
                         {
-                            MiniListA = ShiznitOfDoom(Refered);
+                            MiniListA = Chain(Refered);
                             if (MiniListA.Count() != 0)
                             {
                                 MiniListA.Add(value.getA());
@@ -149,7 +149,7 @@ namespace InferenceEngine
                 // If b ref
                 if (value.IsBref())
                 {
-                    MiniListB = ShiznitOfDoom(value.getBRef());
+                    MiniListB = Chain(value.getBRef());
                 }
                 // If B is a Singular Original
                 else if (IsOriginal(value.getB()))
@@ -162,7 +162,7 @@ namespace InferenceEngine
                     {
                         foreach (Proposition Refered in temp)
                         {
-                            MiniListB = ShiznitOfDoom(Refered);
+                            MiniListB = Chain(Refered);
                             if (MiniListB.Count() != 0)
                             {
                                 MiniListB.Add(value.getB());
@@ -197,7 +197,7 @@ namespace InferenceEngine
                 // If A ref
                 if (value.IsAref())
                 {
-                    MiniListA = ShiznitOfDoom(value.getARef());
+                    MiniListA = Chain(value.getARef());
                 }
                 // If A is a Singular Original 
                 else if (IsOriginal(value.getA()))
@@ -211,7 +211,7 @@ namespace InferenceEngine
                     {
                         foreach (Proposition Refered in temp)
                         {
-                            MiniListA = ShiznitOfDoom(Refered);
+                            MiniListA = Chain(Refered);
                             if (MiniListA.Count() != 0)
                             {
                                 MiniListA.Add(value.getA());
@@ -225,7 +225,7 @@ namespace InferenceEngine
                 {
                     if (value.IsBref())
                     {
-                        MiniListB = ShiznitOfDoom(value.getBRef());
+                        MiniListB = Chain(value.getBRef());
                     }
                     // If B is a Singular Original
                     else if (IsOriginal(value.getB()))
@@ -239,7 +239,7 @@ namespace InferenceEngine
                     {
                         foreach (Proposition Refered in temp)
                         {
-                            MiniListB = ShiznitOfDoom(Refered);
+                            MiniListB = Chain(Refered);
                             if (MiniListB.Count() != 0)
                             {
                                 MiniListB.Add(value.getB());

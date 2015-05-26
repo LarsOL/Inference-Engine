@@ -16,7 +16,7 @@ namespace InferenceEngine
             _StartWorld = ProblemSpace;
             
         } 
-        public bool? WorkShizznitOut()
+        public bool? Start()
         {
             bool?[] arguments = new bool?[_Model.Length];
             _StartWorld.Arguments = arguments;
