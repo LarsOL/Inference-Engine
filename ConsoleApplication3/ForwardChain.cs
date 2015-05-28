@@ -38,6 +38,7 @@ namespace InferenceEngine
                     }
                 }
             }
+            //print out ans
             if((_StartWorld.IsTrue(-1)==true))
             {
                 System.Console.Write("YES: ");

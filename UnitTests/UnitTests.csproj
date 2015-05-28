@@ -53,6 +53,7 @@
     <Compile Include="PropositionInterpreterTest.cs" />
     <Compile Include="TruthTableTest.cs" />
     <Compile Include="UnitTest1.cs" />
+    <Compile Include="WholeProgramTests.cs" />
     <Compile Include="WorldTest.cs" />
     <Compile Include="CombinedTest.cs" />
     <Compile Include="PropositionTest.cs" />

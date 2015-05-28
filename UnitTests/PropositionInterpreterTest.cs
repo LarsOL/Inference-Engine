@@ -10,14 +10,14 @@ namespace UnitTests
     {
         // NOTE: NOT A STRICT TEST YET, ONLY CHECKS TO SEE THE METHOD FINISHES, NOT THE CORRECT ANSWER.
 
-        Model temp;
-        PropositionInterpreter test;
+        Model model;
+        PropositionInterpreter propintr;
 
         [TestInitialize()]
         public void setup()
         {
-            temp = new Model();
-            test = new PropositionInterpreter(ref temp);
+            model = new Model();
+            propintr = new PropositionInterpreter(ref model);
         }
 
         [TestCleanup()]
@@ -26,35 +26,35 @@ namespace UnitTests
         public void NoBrackets_3feild()
         {
             string[] teststring = {"a&b"};
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void Test_hornPriority()
         {
             string[] teststring = { "p1&b=>p2" };
-            Proposition[] result = test.ParseProps(teststring);
+            Proposition[] result = propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void NoBrackets_4feild()
         {
             string[] teststring = { "a&b|c" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void NoBrackets_9feild()
         {
             string[] teststring = { "a&b|c=>d&e|f&g&h|i" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void NoBrackets_9feild_DoubleSymbols()
         {
             string[] teststring = { "a|g&c<=>d&c|f&g|b|c" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
             
         }
 
@@ -62,70 +62,70 @@ namespace UnitTests
         public void Brackets_3feild()
         {
             string[] teststring = { "(a&b)|c" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void Brackets_4feild()
         {
             string[] teststring = { "(a&b)|(c&d)" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void Brackets_6feild_DoubleSymbols()
         {
             string[] teststring = { "(a&b)|(c|d)<=>(b&c)" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void BracketsNested_5feild()
         {
             string[] teststring = { "((a|b)&(c|d))=>c" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void BracketsNested_8feild()
         {
             string[] teststring = { "((a|b)&(c|d))=>((e|f)&(g|h))" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void BracketsNested_8feild_DoubleSymbols()
         {
             string[] teststring = { "((a&h)|(c&d))=>((c|f)&(d|h))" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void MultiProps_Complicatied()
         {
             string[] teststring = { "(a&b)|c", "a&b|c=>d&e|f&g&h|i", "(a|b)&(c|d)=>(b|c)", "((a&b)|(c&d))=>((e&f)&(g|h))", "((a&h)|(c&d))=>((c|f)&(d|h))", "~(a|~B)" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void NotTest()
         {
             string[] teststring = {"~a|B&~c"};
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void NotTest_2feild()
         {
             string[] teststring = { "~a|~B" };
-            test.ParseProps(teststring);
+            propintr.ParseProps(teststring);
         }
 
         [TestMethod]
         public void NotInfrontOfBracket()
         {
             string[] teststring = { "~(a|~B)" };
-            Proposition[] tester = test.ParseProps(teststring);
+            Proposition[] tester = propintr.ParseProps(teststring);
         }
         [TestMethod]
         public void HornTest()

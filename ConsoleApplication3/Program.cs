@@ -15,7 +15,7 @@ namespace InferenceEngine
             {
                 if (debugging)// debugging overide REMOVE
                 {
-                    args = new[] { "TT", "./t2.txt" };
+                    args = new[] { "BC", "./t1.txt" };
                 }
 
                 if (args.Length != 2)
@@ -24,23 +24,27 @@ namespace InferenceEngine
                 }
                 
                 FileInput input = new FileInput(args[1]);
-                Model temp = new Model();
-                PropositionInterpreter test = new PropositionInterpreter(ref temp);
-                World MyWorld = new World(test.ParseProps(input.ReadFromFile()), temp.Length);
+                Model model = new Model();
+                PropositionInterpreter propintr = new PropositionInterpreter(ref model);
+                World MyWorld = new World(propintr.ParseProps(input.ReadFromFile()), model.Length);
 
                 switch (args[0].ToUpper())
                 {
                     case "TT":
-                        TruthTable Truthsolver = new TruthTable(temp, MyWorld);
+                        TruthTable Truthsolver = new TruthTable(model, MyWorld);
                         Truthsolver.solve();
                         break;
                     case "FC":
-                        ForwardChain forwardsolver = new ForwardChain(temp, MyWorld);
+                        ForwardChain forwardsolver = new ForwardChain(model, MyWorld);
                         forwardsolver.Start();
                         break;
                     case "BC":
-                        BackwardsChain backwardsolver = new BackwardsChain(temp, MyWorld);
+                        BackwardsChain backwardsolver = new BackwardsChain(model, MyWorld);
                         backwardsolver.Start();
+                        break;
+                    case "GRAPHICAL_TT":
+                        TruthTable GraphicalTruthsolver = new TruthTable(model, MyWorld);
+                        GraphicalTruthsolver.pretty_output();
                         break;
                     default:
                         throw new System.ArgumentException("Invaild method. Usage: Program.exe <method> <file path>");
