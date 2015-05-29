@@ -18,26 +18,34 @@ namespace InferenceEngine
         } 
         public bool? Start()
         {
+            
             bool?[] arguments = new bool?[_Model.Length];
             _StartWorld.Arguments = arguments;
             _StartWorld.FindPrimarys();
             bool Stuck = false;
             string path = "";
-            while ((_StartWorld.IsTrue(-1) == null) && (!Stuck))
+            List<bool> alreadyDone = new List<bool>();
+            for (int i = 0; i < _StartWorld.Length; i++)
             {
-                Stuck = true;
-                for (int i = 0; i < _StartWorld.Length; i++)
+                alreadyDone.Add(false);
+            }
+            while ((_StartWorld.IsTrue(-1) == null) && (!Stuck))
                 {
-                    Proposition temp;
-                    if ((temp = _StartWorld.TryInfer(i)) != null)
+                    Stuck = true;
+                    for (int i = 0; i < _StartWorld.Length; i++)
                     {
-                        _StartWorld.AddToKB(temp);
-                        //path += _Model.GetName(temp.getA()) +", ";
-                        _StartWorld.FindPrimarys();
-                        Stuck = false;
+                        Proposition temp;
+                        if ((temp = _StartWorld.TryInfer(i)) != null && !alreadyDone[i])
+                        {
+                            _StartWorld.AddToKB(temp);
+                            alreadyDone.Add(false);
+                            alreadyDone[i] = true;
+                            //path += _Model.GetName(temp.getA()) +", ";
+                            _StartWorld.FindPrimarys();
+                            Stuck = false;
+                        }
                     }
                 }
-            }
             //print out ans
             if((_StartWorld.IsTrue(-1)==true))
             {

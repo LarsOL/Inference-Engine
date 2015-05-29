@@ -15,7 +15,7 @@ namespace InferenceEngine
             {
                 if (debugging)// debugging overide REMOVE
                 {
-                    args = new[] { "FC", "./t1.txt" };
+                    args = new[] { "BC", "./t1.txt" };
                 }
 
                 if (args.Length != 2)
