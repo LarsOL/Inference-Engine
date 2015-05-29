@@ -10,12 +10,12 @@ namespace InferenceEngine
     {
         static void Main(string[] args)
         {
-            bool debugging = true; //DEBUG FLAG
+            bool debugging = false; //DEBUG FLAG
             try
             {
                 if (debugging)// debugging overide REMOVE
                 {
-                    args = new[] { "BC", "./t1.txt" };
+                    args = new[] { "FC", "./t1.txt" };
                 }
 
                 if (args.Length != 2)

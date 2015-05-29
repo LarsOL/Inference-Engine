@@ -82,9 +82,9 @@ namespace UnitTests
             forwardsolver.Start();
             bool forward = (strWriter.ToString()[0] == 'Y'); // if it returns YES
 
-            Assert.Equals(truth, rightAns);
-            Assert.Equals(truth, backwards);
-            Assert.Equals(backwards, forward);
+            Assert.AreEqual(truth, rightAns);
+            Assert.AreEqual(truth, backwards);
+            Assert.AreEqual(backwards, forward);
             
 
         }
@@ -105,9 +105,9 @@ namespace UnitTests
             forwardsolver.Start();
             bool forward = (strWriter.ToString()[0] == 'Y'); // if it returns YES
 
-            Assert.Equals(truth, rightAns);
-            Assert.Equals(truth, backwards);
-            Assert.Equals(backwards, forward);
+            Assert.AreEqual(truth, rightAns);
+            Assert.AreEqual(truth, backwards);
+            Assert.AreEqual(backwards, forward);
 
 
         }

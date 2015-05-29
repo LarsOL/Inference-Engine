@@ -30,15 +30,23 @@ namespace InferenceEngine
             List<int> result = Chain(_StartWorld._Goal);
             if(result.Count()==0)
             {
-                Console.WriteLine("No Path Found");
+                Console.WriteLine("NO");
             }
             else
             {
-                Console.WriteLine("Path Found ");
+                Console.Write("YES:");
+                bool first = true;
                 foreach (int item in result)
                 {
-
-                    Console.Write(_Model.GetName(item));
+                    if (first)
+                    {
+                        Console.Write(_Model.GetName(item));
+                        first = false;  
+                    }
+                    else
+                    {
+                        Console.Write("," +_Model.GetName(item) );
+                    }
                 }
             }
         }

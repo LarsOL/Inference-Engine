@@ -229,7 +229,7 @@ namespace InferenceEngine
 
         public Proposition TryInfer(bool?[] Arguements)
         {
-            if(this.Single)
+            if(this.Single | !(Operation == Operations.Implication | Operation == Operations.Biconditional))
             {
                 return null;
             }
